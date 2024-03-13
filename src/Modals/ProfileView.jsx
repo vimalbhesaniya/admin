@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
 import Modal from '../render-model/Modal'
 import css from "../Styles/modal.module.css"
-const Body = ({ onClose , style ,hidden }) => {
+const Body = ({ onClose , style ,hidden , setValue }) => {
     const [hide, setHide] = useState([]);
-    console.log(hide);
+
     const handleHide = (key) => {
+        
+        setValue((prev) => {
+            if (hide.includes(key)) {
+                return hide.filter(e => e !== key);
+            }
+            else {
+                return [...prev, key]
+            }
+        })
         setHide((prev) => {
             if (hide.includes(key)) {
                 return hide.filter(e => e !== key);
@@ -18,10 +27,10 @@ const Body = ({ onClose , style ,hidden }) => {
         <>
             <div className={style}>
                 <div className={css.TableContainer}>
-                    <table className='table table-hover  table-responsive-md  align-middle mb-0 '>
+                    <table className='table  table-hover bg-white table-borderless  table-responsive-md  align-middle mb-0 '>
                         <thead className=''>
                             <tr >
-                                <th  colSpan={2}>
+                                <th  >
                                     <div class="d-flex align-items-center">
                                         <img
                                             src="https://mdbootstrap.com/img/new/avatars/8.jpg"
@@ -41,17 +50,17 @@ const Body = ({ onClose , style ,hidden }) => {
                             </tr>
                         </thead>
                         <thead className='hand table-info ' >
-                            <tr className='' onClick={() => handleHide("pd")}>
+                            <tr className='' onClick={() => handleHide("PersonalDetails")}>
                                 <th><b>Personal Details</b></th>
                                 <th className='text-end '>
-                                    {!hide.includes("pd") ? <i class="fa-solid fa-caret-right"></i> :
+                                    {!hide.includes("PersonalDetails") ? <i class="fa-solid fa-caret-right"></i> :
                                         <i class="fa-solid fa-caret-down"></i>
                                     }
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className='table-active ' style={
-                            !hide.includes("pd") ? {
+                        <tbody className='table-active table-bordered border-1 border-light' style={
+                            !hide.includes("PersonalDetails") ? {
                                 display: "none"
                             } : { }
                         }>
@@ -65,17 +74,17 @@ const Body = ({ onClose , style ,hidden }) => {
                             </tr>
                         </tbody>
                         <thead className='table-info hand '> 
-                            <tr onClick={() => handleHide("ed")}>
+                            <tr onClick={() => handleHide("EducationDetails")}>
                                 <th><b>Education Details</b></th>
                                 <th className='text-end '>
-                                    {!hide.includes("ed") ? <i class="fa-solid fa-caret-right"></i> :
+                                    {!hide.includes("EducationDetails") ? <i class="fa-solid fa-caret-right"></i> :
                                         <i class="fa-solid fa-caret-down"></i>
                                     }
                                 </th>
                             </tr>
                         </thead>
                         <tbody className='table-active' style={
-                            !hide.includes("ed") ? {
+                            !hide.includes("EducationDetails") ? {
                                 display: "none"
                             } : { }
                         }>
@@ -89,17 +98,17 @@ const Body = ({ onClose , style ,hidden }) => {
                             </tr>
                         </tbody>
                         <thead className='table-info hand'> 
-                            <tr onClick={() => handleHide("ex")}>
-                                <th><b>Location Details</b></th>
+                            <tr onClick={() => handleHide("ExperienceDetails")}>
+                                <th><b>Exprience Details</b></th>
                                 <th className='text-end '>
-                                    {!hide.includes("ex") ? <i class="fa-solid fa-caret-right"></i> :
+                                    {!hide.includes("ExperienceDetails") ? <i class="fa-solid fa-caret-right"></i> :
                                         <i class="fa-solid fa-caret-down"></i>
                                     }
                                 </th>
                             </tr>
                         </thead>
                         <tbody className='table-active' style={
-                            !hide.includes("ex") ? {
+                            !hide.includes("ExperienceDetails") ? {
                                 display: "none"
                             } : { }
                         }>
@@ -113,17 +122,17 @@ const Body = ({ onClose , style ,hidden }) => {
                             </tr>
                         </tbody>
                         <thead className='table-info hand'> 
-                            <tr onClick={() => handleHide("add")}>
-                                <th><b>Experience Details</b></th>
+                            <tr onClick={() => handleHide("LocationDetails")}>
+                                <th><b>Location Details</b></th>
                                 <th className='text-end '>
-                                    {!hide.includes("add") ? <i class="fa-solid fa-caret-right"></i> :
+                                    {!hide.includes("LocationDetails") ? <i class="fa-solid fa-caret-right"></i> :
                                         <i class="fa-solid fa-caret-down"></i>
                                     }
                                 </th>
                             </tr>
                         </thead>
                         <tbody className='table-active' style={
-                            !hide.includes("add") ? {
+                            !hide.includes("LocationDetails") ? {
                                 display: "none"
                             } : { }
                         }>

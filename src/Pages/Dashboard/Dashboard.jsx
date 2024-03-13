@@ -8,7 +8,10 @@ const Dashboard = () => {
         <>
             <div className={css.body}> 
                     <Navbar />           
-                    <Tab  tabName={"Dashboard"}/>                    
+                    <Tab  tabName={"Dashboard"} 
+
+                        
+                    />                    
                     <Counts />
             </div>
         </>

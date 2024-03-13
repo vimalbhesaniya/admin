@@ -22,7 +22,13 @@ const Connections = () => {
         <>
             <div className={css.body}>
                 <Navbar />
-                <Tab tabName={"Connections"}></Tab>
+                <Tab tabName={"Connections"} 
+                action={
+                            <>
+                                <input type="text" placeholder="Search Connections" className='form-control w-100 ' />
+                            </>
+                        }
+                />
                 <div className={css.TableContainer}>
                     <table class="table table-responsive-md  align-middle mb-0 bg-white">
                         <thead class="bg-light">

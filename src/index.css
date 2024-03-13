@@ -77,8 +77,8 @@ body {
     height: 60px;
     width: 100%;
     background-color: var(--white);
-    position: relative;
     display: flex;
+    position: absolute;
 }
 
 .navbarMain>.nav-header {

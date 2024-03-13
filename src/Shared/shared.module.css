@@ -188,6 +188,9 @@ tr td:first-child{
     font-weight: 700;
 }
   @media (max-width : 768px) {
+    .TableContainer{
+        width: 95%;
+    }
         .greetText{
             font-size: large;
             font-weight: 600;

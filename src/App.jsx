@@ -10,6 +10,7 @@ import Left from "./Components/left";
 import Center from "./Components/center";
 import Right from "./Components/right";
 import Loader from "./Shared/Loader";
+import NotConnected from "./Components/NotConnected";
 
 const RenderScreen = createContext();
 
@@ -38,9 +39,14 @@ function App() {
                 {loaderState && <Loader />}
                 
                 {
-                    isOnline ? <NotConnected />
+                    !isOnline
+                    ? 
+                    <NotConnected />
+                    :
+                    renderScreen()
+
                 }
-                {renderScreen()}
+                
             </RenderScreen.Provider>
         </>
     );

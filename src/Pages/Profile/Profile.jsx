@@ -1,27 +1,42 @@
-import React from 'react'
-import Tab from '../../Shared/Tab'
-import ProfileView, { Body } from '../../Modals/ProfileView'
-import css from "../Dashboard/style.module.css"
-import Navbar from '../../Shared/Navbar'
-import { useContext } from 'react'
-import { ActiveModal } from '../../main'
+import React, { useState } from "react";
+import Tab from "../../Shared/Tab";
+import ProfileView, { Body } from "../../Modals/ProfileView";
+import css from "../Dashboard/style.module.css";
+import Navbar from "../../Shared/Navbar";
+import { useContext } from "react";
+import { ActiveModal } from "../../main";
 const Profile = () => {
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
+    var x = " / "
+    const [value, setValue] = useState([]);
     return (
         <>
             <div className={css.body}>
                 <Navbar />
-                <Tab tabName={"Profile"}
+                <Tab
+                    tabName={`Profile${value.length !== 0?x.concat(value[value?.length-1]):""}`}
                     action={
                         <>
-                            <span className='text-info fw-bolder hand ' onClick={() => setActiveModalState("editprofile")}><i class="fa-solid fa-user-pen fw-bolder " ></i> Edit</span>
+                            <span
+                                className="text-info fw-bolder hand "
+                                onClick={() =>
+                                    setActiveModalState("editprofile")
+                                }
+                            >
+                                <i class="fa-solid fa-user-pen fw-bolder "></i>{" "}
+                                Edit
+                            </span>
                         </>
                     }
                 />
-                <Body style={css.modalBodyTable} hidden={true} />
+                <Body
+                    setValue={setValue}
+                    style={css.modalBodyTable}
+                    hidden={true}
+                />
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Profile
+export default Profile;
