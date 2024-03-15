@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import Modal from "../../render-model/Modal";
 import Swal from 'sweetalert2'
 import css from "../../Styles/modal.module.css";
+import { GlobalState } from "../../App";
+import useAPI from "../../Hooks/useAPI";
+
 const Body = ({ onClose, style, hidden }) => {
     // const Swal = require('sweetalert2')
     const [hide, setHide] = useState([]);
-    console.log(hide);
+    const [currentState, setCurrentState] = useContext(GlobalState);
+    const [data, setData] = useState([]);
+
+    const api = useAPI();
+    const companyid = currentState._id;
+    console.log(companyid);
+
+    // console.log(hide);
     const handleHide = (key) => {
         setHide((prev) => {
             if (hide.includes(key)) {
@@ -15,7 +25,56 @@ const Body = ({ onClose, style, hidden }) => {
             }
         });
     };
-    const handleDelete =() =>{
+
+    const fetch = useCallback(async () => {
+        const jobs = await api.getREQUEST(`FetchCompanyJobs/${companyid}`);
+        console.log(jobs);
+        setData(jobs);
+    })
+
+    useEffect(() => {
+        fetch()
+    }, [])
+
+    const companySchemaKeys = [
+        'Name',
+        'Industry',
+        'Email',
+        'Logo',
+        'TagLine',
+        'Websites',
+        'establishedYear',
+        'Description',
+    ];
+    const filteredData1 = Object.entries(data).filter(([key, _]) =>
+        companySchemaKeys.includes(key)
+    );
+
+    const schemaKeysAddress = [
+        'state' ,
+        'city',
+        'pinCode',
+        'personalAddress'
+    ];
+
+    const filteredData2 = Object.entries(data.Address[0]).filter(([key, _]) =>
+        schemaKeysAddress.includes(key)
+    );
+
+    const schemaKeys = [
+        'Name' ,
+        'EmailID',
+    ];
+    const filteredData3 = Object.entries(data.HRDetail).filter(([key, _]) =>
+        schemaKeys.includes(key)
+    );
+
+    const filteredData4 = Object.entries(data.OwnerDetail).filter(([key, _]) =>
+        schemaKeys.includes(key)
+    );
+
+
+    const handleDelete = () => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -24,21 +83,21 @@ const Body = ({ onClose, style, hidden }) => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
-            allowOutsideClick:true,
-            customClass:"customClass"
+            allowOutsideClick: true,
+            customClass: "customClass"
 
 
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-              });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
             }
-          });
+        });
     }
-    
+
     return (
         <>
             <div className={style}>
@@ -68,7 +127,7 @@ const Body = ({ onClose, style, hidden }) => {
                                             Edit
                                         </button>
                                         <button className="btn fw-bold  btn-outline-danger"
-                                        onClick={() => handleDelete()}
+                                            onClick={() => handleDelete()}
                                         >
                                             <i class="fa-solid fa-trash-can"></i>{" "}
                                             Delete
@@ -88,7 +147,7 @@ const Body = ({ onClose, style, hidden }) => {
                                                     view
                                                 </>
                                             )}
-                                            
+
                                         </button>
                                     </div>
                                 </th>
@@ -113,19 +172,75 @@ const Body = ({ onClose, style, hidden }) => {
                             style={
                                 !hide.includes("job")
                                     ? {
-                                          display: "none",
-                                      }
+                                        display: "none",
+                                    }
                                     : {}
                             }
                         >
-                            <tr>
-                                <td>FirstName:</td>
-                                <td>Vimal</td>
-                            </tr>
-                            <tr>
-                                <td>LastName:</td>
-                                <td>Bhesaniya</td>
-                            </tr>
+                            {filteredData1.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
+                            {filteredData2i.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
+                            {filteredData3.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
+                            {filteredData4.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
+                            
+                            
+                            
+                            {/* {data.map((company, index) => (
+                                < >
+                                    {Object.entries(company).map(([key, value]) => (
+                                        <tr key={key}>
+                                            <td>{key.toLocaleUpperCase()}</td>
+                                            <td className="text-end">
+                                                {Array.isArray(value) ? value.join(", ") : value}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </>
+                            ))} */}
+
                         </tbody>
                     </table>
                 </div>

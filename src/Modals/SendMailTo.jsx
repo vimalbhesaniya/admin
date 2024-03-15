@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import Modal from '../render-model/Modal'
 import css from "../Styles/modal.module.css"
 import Button from '../Hoc/Button';
-const Body = ({onClose}) => {
+import { toast } from 'react-toastify';
+import useAPI from '../Hooks/useAPI';
+
+const Body = ({ onClose }) => {
+    const api = useAPI();
+    const to = localStorage.getItem("mailTo")
+    const senderEmail = localStorage.getItem("mailFrom")
     const [formData, setFormData] = useState({
-        recipientEmail: '',
+        recipientEmail: to,
         subject: '',
         message: ''
     });
@@ -17,17 +23,29 @@ const Body = ({onClose}) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Here you can perform any additional validations before submitting the form
         // Then send the email data to your server
-        console.log('Form Data:', formData);
-        // Clear the form fields after submission
+        // console.log('Form Data:', formData);
+        try {
+            const response = await api.postREQUEST("EmailSent", JSON.stringify(formData))
+            if (response) {
+                toast.success("Email Sent Successfully.")
+            }
+            else {
+                toast.error(response.error)
+            }
+        }
+        catch (e) {
+            toast.error(e);
+        }
         setFormData({
             recipientEmail: '',
             subject: '',
             message: ''
         });
+        // Clear the form fields after submission
     };
 
     return (
@@ -91,15 +109,15 @@ const Body = ({onClose}) => {
     )
 }
 
-const SendMailTo = ({onClose}) => {
+const SendMailTo = ({ onClose }) => {
     return (
         <Modal
-            body={<Body  
+            body={<Body
                 onClose={onClose}
             />
-        
-        }
-    
+
+            }
+
         />
     )
 }

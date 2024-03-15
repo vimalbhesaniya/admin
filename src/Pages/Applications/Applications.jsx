@@ -6,9 +6,13 @@ import "../Connections/style.css"
 import { ActiveModal } from "../../main"
 import Navbar from '../../Shared/Navbar'
 import useAPI from '../../Hooks/useAPI'
+import { GlobalState } from '../../App'
+import { toast } from 'react-toastify'
+import Swal from 'sweetalert2'
 
 const Applications = () => {
     const [items, setItems] = useState([])
+    const [currentState, setCurrentState] = useContext(GlobalState);
     const api = useAPI();
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
     const fetch = useCallback(async () => {
@@ -20,6 +24,40 @@ const Applications = () => {
     useEffect(() => {
         fetch()
     }, [])
+
+    const handleDelete = async (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const result = api.deleteREQUEST("delete", "jobapplications", {
+                        _id: id
+                    })
+                    console.log(result);
+                    if (result && result.ok) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                        fetch();
+                    } else {
+                        toast.error(result.error)
+                    }
+                } catch {
+                    console.error("Error deleting application:", error);
+                }
+            }
+        });
+    }
+
     return (
         <>
             <div className={css.body}>
@@ -57,7 +95,7 @@ const Applications = () => {
                                                     <img
                                                         src={`${e.userId.profileImage}`}
                                                         alt=""
-                                                        onError={e=>e.target.src = "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
+                                                        onError={e => e.target.src = "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
                                                         style={{
                                                             width: "45px",
                                                             height: "45px",
@@ -77,7 +115,7 @@ const Applications = () => {
                                             </td>
                                             <td>
                                                 <p class="fw-normal mb-1 text-nowrap ">
-                                                    {e?.userId&&
+                                                    {e?.userId &&
                                                         e?.email}
                                                 </p>
                                             </td>
@@ -86,10 +124,9 @@ const Applications = () => {
                                             <td className="d-grid gap-3">
                                                 <button
                                                     type="button"
-                                                    onClick={() =>
-                                                    {
+                                                    onClick={() => {
                                                         setActiveModalState("profileViewOfConnections")
-                                                        localStorage.setItem("connectionId" , JSON.stringify(e.userId))
+                                                        localStorage.setItem("connectionId", JSON.stringify(e.userId))
                                                     }
                                                     }
                                                     class="btn btn-outline-info fw-bold  btn-rounded"
@@ -98,15 +135,21 @@ const Applications = () => {
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    onClick={()=>setActiveModalState("sendmail")}
-                                                    
+                                                    onClick={() => {
+                                                        localStorage.setItem("mailTo", e.email)
+                                                        localStorage.setItem("mailFrom", currentState.Email)
+                                                        setActiveModalState("sendmail")
+                                                    }}
+
                                                     class="btn btn-outline-success fw-bold  btn-rounded"
                                                 >
+
                                                     <i title="hire" class="fa-regular fa-envelope fs-5"></i>
                                                 </button>
                                                 <button
                                                     type="button"
                                                     class="btn btn-outline-danger fw-bold   btn-rounded"
+                                                    onClick={() => handleDelete(e._id)}
                                                 >
                                                     <i className='fa fa-close'></i> DELETE
                                                 </button>
