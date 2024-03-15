@@ -27,6 +27,7 @@ const Body = ({ onClose, style, hidden }) => {
             allowOutsideClick:true,
             customClass:"customClass"
 
+
           }).then((result) => {
             if (result.isConfirmed) {
               Swal.fire({

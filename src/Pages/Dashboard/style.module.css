@@ -12,6 +12,12 @@
     width: 98%;
 }
 
+.containerApp{
+    width: 98%;
+    display: flex;
+    
+
+}
 
 
 .body {
@@ -48,7 +54,7 @@
 
 .CountContainer {
     width: 98%;
-    max-height: 100vh;
+    height: 350px;
     display: flex;
     margin: 0 auto;
     margin-top: 10px;
@@ -124,6 +130,11 @@
 }
 
 @media (max-width : 768px) {
+    .rowcustom{
+        width: 95%;
+    
+    }
+    
     .activeTab {
         width: 95%;
     }

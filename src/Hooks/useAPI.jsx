@@ -1,17 +1,17 @@
-import Cookies from 'js-cookie'
 import React, { useCallback, useContext } from 'react'
-import { EnableSpinner } from '../..';
+import { EnableLoader } from '../App'
+import { ErrorState } from '../App'
 import { useState } from 'react'
 const useAPI = () => {
-    const [setSpinnerState] = useContext(EnableSpinner);
+    const [error, setError] = useContext(ErrorState);
+    const [loaderState ,setLoaderState] = useContext(EnableLoader);
     const [data, setData] = useState("")
-    const [error, setError] = useState("")
+    // const [error, setError] = useState("")
     const [loading, setLoading] = useState(false);
-
     const postREQUEST = useCallback(async (PATH, BODY, HEADER) => {
-        setSpinnerState(true);
+        setLoaderState(true);
         try {
-            const RESPONSE = await fetch(`${process.env.REACT_APP_LOCAL_URL}${PATH}`,
+            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -23,39 +23,38 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setSpinnerState(false);
+                setLoaderState(false);
             }
             setData(data);
             return data
         }
         catch (error) {
             setError(error);
-            setSpinnerState(false);
+            setLoaderState(false);
             return error
         }
     }, [data, error, loading]);
     
     const getREQUEST = useCallback(async (PATH, BODY, HEADER) => {
-        setSpinnerState(true);
+        setLoaderState(true);
         try {
-            const RESPONSE = await fetch(`${process.env.REACT_APP_LOCAL_URL}${PATH}`,
+            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        "authorization": Cookies.get("token")
+                        "authorization": localStorage.getItem("token")
                     },
-                    body: BODY,
                     method: "GET"
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setSpinnerState(false);
+                setLoaderState(false);
             }
             setData(data);
             return data
         }
         catch (error) {
-            setSpinnerState(false);
+            setLoaderState(false);
             setError(error);
             return error
         }
@@ -64,8 +63,8 @@ const useAPI = () => {
     
     const patchREQUEST = useCallback(async (PATH,COLLECTION_NAME  ,_id, COLUMNS ) => {
         try {
-            setSpinnerState(true)
-            const RESPONSE = await fetch(`${process.env.REACT_APP_LOCAL_URL}${PATH}`,
+            setLoaderState(true)
+            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -80,13 +79,13 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setSpinnerState(false)
+                setLoaderState(false)
                 setData(data);
             }
             return data
         }
         catch (error) {
-            setSpinnerState(false);
+            setLoaderState(false);
             setError(error);
             return error
         }
@@ -95,7 +94,7 @@ const useAPI = () => {
     
     const deleteREQUEST = useCallback(async (PATH,COLLECTION_NAME , WHERE ) => {
         try {
-            const RESPONSE = await fetch(`${process.env.REACT_APP_LOCAL_URL}${PATH}`,
+            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -112,13 +111,13 @@ const useAPI = () => {
             return data
         }
         catch (error) {
-            setSpinnerState(false);
+            setLoaderState(false);
             setError(error);
             return error
         }
     }, [data, error, loading]);
     
-    return {postREQUEST ,getREQUEST ,deleteREQUEST,patchREQUEST }
+    return {postREQUEST ,getREQUEST ,deleteREQUEST,patchREQUEST , error, data , loading }
 }
 
 export default useAPI

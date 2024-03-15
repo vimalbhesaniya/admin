@@ -5,11 +5,16 @@ import Navbar from '../../Shared/Navbar'
 import Body from './Body'
 import { ActiveModal } from '../../main'
 import Button from '../../Hoc/Button'
+import { GlobalState } from '../../App'
 const Jobs = () => {
     const [activeModalState ,setActiveModalState] = useContext(ActiveModal);
+    const [currentState , setCurrentState] = useContext(GlobalState);
+
     return (
         <div className={css.body}>
-            <Navbar />
+            <Navbar 
+                    left={`Hello 👋 ${currentState.HRDetail.Name}!`}
+                    />
             <Tab tabName={"Jobs"}
                 action={
                     <>

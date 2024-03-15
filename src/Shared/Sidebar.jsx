@@ -12,7 +12,7 @@ const Sidebar = () => {
     return (
         <>
             <div class="sidebar">
-                <div className="container">
+                <div className="containerSIDE">
 
                     <div className="links">
                         <div className="links--menu--logo">

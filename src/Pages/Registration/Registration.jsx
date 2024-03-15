@@ -30,7 +30,7 @@ const Registration = () => {
     return (
         <div className={css.main}>
             <form onSubmit={handleSubmit} className={css.form}>
-                <div className={`${css.formHeader}`}>Company ragistration</div>
+                <div className={`${css.formHeader}`}>Company Regisration</div>
                 <div className={`${css.formSlogan} ${css.mt}`}>Let's create your account</div>
                 <div className={`${css.row} ${css.mt}`}>
                     <input

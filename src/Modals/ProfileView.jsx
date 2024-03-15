@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
 import Modal from '../render-model/Modal'
 import css from "../Styles/modal.module.css"
-const Body = ({ onClose , style ,hidden , setValue }) => {
+import { GlobalState } from '../App'
+import react ,{ useContext, useState } from 'react'
+
+const Body = ({ onClose, style, hidden, setValue }) => {
+    const [currentState, setCurrentState] = useContext(GlobalState);
     const [hide, setHide] = useState([]);
 
     const handleHide = (key) => {
-        
-        setValue((prev) => {
+
+    setValue((prev) => {
             if (hide.includes(key)) {
                 return hide.filter(e => e !== key);
             }
@@ -33,19 +36,22 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                                 <th  >
                                     <div class="d-flex align-items-center">
                                         <img
-                                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                            src={currentState.Logo}
+                                            onError={(e) =>
+                                                e.target.src = "https://i.pinimg.com/originals/ec/d9/c2/ecd9c2e8ed0dbbc96ac472a965e4afda.jpg"
+                                            }
                                             alt=""
                                             style={{ width: "80px", height: "80px" }}
                                             class="rounded-circle"
                                         />
                                         <div class="ms-3">
-                                            <p class="fw-bold mb-1">John Doe</p>
-                                            <p class="text-muted mb-0">john.doe@gmail.com</p>
+                                            <p class="fw-bold fs-5 mb-1">{currentState?.Name}</p>
+                                            <p class="text-muted mb-0">{currentState.Email}</p>
                                         </div>
                                     </div>
                                 </th>
-                                {!hidden&&<th className='text-end d-flex flex-column  justify-content-start'>
-                                    {!hidden&&<i className='fa fa-close hand' onClick={onClose}></i>}
+                                {!hidden && <th className='text-end d-flex flex-column  justify-content-start'>
+                                    {!hidden && <i className='fa fa-close hand' onClick={onClose}></i>}
                                 </th>}
                             </tr>
                         </thead>
@@ -62,18 +68,18 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                         <tbody className='table-active table-bordered border-1 border-light' style={
                             !hide.includes("PersonalDetails") ? {
                                 display: "none"
-                            } : { }
+                            } : {}
                         }>
                             <tr>
                                 <td>FirstName:</td>
-                                <td>Vimal</td>
+                                <td>veer</td>
                             </tr>
                             <tr>
                                 <td>LastName:</td>
                                 <td>Bhesaniya</td>
                             </tr>
                         </tbody>
-                        <thead className='table-info hand '> 
+                        <thead className='table-info hand '>
                             <tr onClick={() => handleHide("EducationDetails")}>
                                 <th><b>Education Details</b></th>
                                 <th className='text-end '>
@@ -86,7 +92,7 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                         <tbody className='table-active' style={
                             !hide.includes("EducationDetails") ? {
                                 display: "none"
-                            } : { }
+                            } : {}
                         }>
                             <tr>
                                 <td className='text-nowrap'>Univercity:</td>
@@ -97,7 +103,7 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                                 <td>Shree shambhubhai V. patel college of CS&BM</td>
                             </tr>
                         </tbody>
-                        <thead className='table-info hand'> 
+                        <thead className='table-info hand'>
                             <tr onClick={() => handleHide("ExperienceDetails")}>
                                 <th><b>Exprience Details</b></th>
                                 <th className='text-end '>
@@ -110,7 +116,7 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                         <tbody className='table-active' style={
                             !hide.includes("ExperienceDetails") ? {
                                 display: "none"
-                            } : { }
+                            } : {}
                         }>
                             <tr>
                                 <td>Company Name:</td>
@@ -121,7 +127,7 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                                 <td className='text-nowrap'>5 years of experience in this company</td>
                             </tr>
                         </tbody>
-                        <thead className='table-info hand'> 
+                        <thead className='table-info hand'>
                             <tr onClick={() => handleHide("LocationDetails")}>
                                 <th><b>Location Details</b></th>
                                 <th className='text-end '>
@@ -134,7 +140,7 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
                         <tbody className='table-active' style={
                             !hide.includes("LocationDetails") ? {
                                 display: "none"
-                            } : { }
+                            } : {}
                         }>
                             <tr>
                                 <td>Company Name:</td>
@@ -153,11 +159,13 @@ const Body = ({ onClose , style ,hidden , setValue }) => {
 }
 
 const ProfileView = ({ onClose }) => {
+    const [tmp, setTmp] = useState([]);
     return (
         <Modal
             body={<Body
                 onClose={onClose}
                 style={css.modalBodyTable}
+                setValue={setTmp}
             />}
 
         />
@@ -165,4 +173,4 @@ const ProfileView = ({ onClose }) => {
 }
 
 export default ProfileView
-export {Body}
+export { Body }

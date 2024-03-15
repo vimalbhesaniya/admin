@@ -5,14 +5,19 @@ import css from "../Dashboard/style.module.css";
 import Navbar from "../../Shared/Navbar";
 import { useContext } from "react";
 import { ActiveModal } from "../../main";
+import { GlobalState } from "../../App";
 const Profile = () => {
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
+    const [currentState , setCurrentState] = useContext(GlobalState);
+
     var x = " / "
     const [value, setValue] = useState([]);
     return (
         <>
             <div className={css.body}>
-                <Navbar />
+            <Navbar 
+                    left={`Hello 👋 ${currentState.HRDetail.Name}!`}
+                    />
                 <Tab
                     tabName={`Profile${value.length !== 0?x.concat(value[value?.length-1]):""}`}
                     action={

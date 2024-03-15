@@ -1,77 +1,118 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import Tab from '../../Shared/Tab'
-import css from "../Dashboard/style.module.css"
-import axios from "axios"
-import Card from './Card'
-import "./style.css"
-import DataTable from "react-data-table-component"
-import { ActiveModal } from "../../main"
-import Navbar from '../../Shared/Navbar'
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import Tab from "../../Shared/Tab";
+import css from "../Dashboard/style.module.css";
+import axios from "axios";
+import Card from "./Card";
+import "./style.css";
+import DataTable from "react-data-table-component";
+import useAPI from "../../Hooks/useAPI";
+import { ActiveModal } from "../../main";
+import { GlobalState } from "../../App";
+import Navbar from "../../Shared/Navbar";
 const Connections = () => {
-    const [items, setItems] = useState([])
+    const api = useAPI();
+    const [items, setItems] = useState([]);
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
+    const [currentState, setCurrentState] = useContext(GlobalState);
+    const id = localStorage.getItem("id");
     const fetch = useCallback(async () => {
-        const data = await axios.get("http://localhost:5500/getConnections/65e5b08ce979b2f19b04296e")
-        console.log(data);
-        setItems(data)
-    })
+        const data = await api.getREQUEST(`getConnections/${id}`);
+        setItems(data);
+    });
     useEffect(() => {
-        fetch()
-    }, [])
+        fetch();
+    }, []);
     return (
         <>
             <div className={css.body}>
-                <Navbar />
-                <Tab tabName={"Connections"} 
-                action={
-                            <>
-                                <input type="text" placeholder="Search Connections" className='form-control w-100 ' />
-                            </>
-                        }
+                <Navbar left={`Hello 👋 ${currentState?.HRDetail?.Name}!`} />
+                <Tab
+                    tabName={`Connections`}
+                    action={
+                        <>
+                            <input
+                                type="text"
+                                placeholder="Search Connections"
+                                className="form-control w-100 "
+                            />
+                        </>
+                    }
                 />
                 <div className={css.TableContainer}>
-                    <table class="table table-responsive-md  align-middle mb-0 bg-white">
+                    <table class="table table-responsive-md  align-middle mb-0 ">
                         <thead class="bg-light">
+                        <tr className="w-25">
+                            <th className="w-25 fs-5 fw-bold">{items.length} {items.length >= 1?" Connection ":" Connections "}Found</th>
+                        </tr>
                             <tr>
-                                <th className=''>Name</th>
-                                <th className=''>Title</th>
-                                <th className=''>Position</th>
-                                <th className=''>Actions</th>
+                                <th className="">Name</th>
+                                <th className="">Location</th>
+                                <th className="">Profession</th>
+                                <th className="">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <img
-                                            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                            alt=""
-                                            style={{ width: "45px", height: "45px" }}
-                                            class="rounded-circle"
-                                        />
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1">John Doe</p>
-                                            <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="fw-normal mb-1 text-nowrap ">Software engineer</p>
-                                </td>
-                                <td>Senior</td>
-                                <td className='d-flex flex-column '>
-                                    <button type="button" onClick={() => setActiveModalState("profileView")} class="btn btn-link  btn-rounded">
-                                        Profile
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        {items.length > 0 ?
+                            items.map((e) => {
+                                return (
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img
+                                                        src={`${e.profileImage}`}
+                                                        alt=""
+                                                        onError={e=>e.target.src = "https://i.pngimg.me/thumb/f/720/c3f2c592f9.jpg"}
+                                                        style={{
+                                                            width: "45px",
+                                                            height: "45px",
+                                                        }}
+                                                        class="rounded-circle"
+                                                    />
+                                                    <div class="ms-3">
+                                                        <p class="fw-bold mb-1">
+                                                            {e.firstName}{" "}
+                                                            {e.lastName}
+                                                        </p>
+                                                        <p class="text-muted mb-0">
+                                                            {e.email}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="fw-normal mb-1 text-nowrap ">
+                                                    {e.location &&
+                                                        e?.location[0]?.city},
+                                                    {e.location &&
+                                                        e?.location[0]?.state}
+                                                </p>
+                                            </td>
+                                            <td>{e.profession}</td>
+                                            <td className="">
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                    {
+                                                        localStorage.setItem("connectionId" , JSON.stringify(e))
+                                                        setActiveModalState("profileViewOfConnections")
+                                                    }
+                                                    }
+                                                    class="btn btn-outline-secondary   btn-rounded"
+                                                >
+                                                    Profile
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                );
+                            }) : <td colSpan={4} className="text-center">
+                                <span className="text-center fs-4 font-monospace"><i class="fa-regular fa-face-frown text-danger "></i>No Connections Found!</span>
+                            </td>}
                     </table>
                 </div>
-
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Connections
+export default Connections;

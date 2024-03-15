@@ -7,7 +7,7 @@ const Navbar = ({ left, right, center }) => {
         <>
             <div class="navbarMain">
                     <div className={css.greetings}>
-                        <span className={css.greetText}>Hello 👋 Vimal!</span>
+                        <span className={css.greetText}>{left}</span>
                     </div>
             </div>
         </>

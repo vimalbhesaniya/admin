@@ -2,9 +2,11 @@ import { useCallback, useContext } from "react";
 import SignupModal from "../Modals/SignupModal";
 import { ActiveModal } from "../main";
 import ProfileView from "../Modals/ProfileView";
+import ConnectionProfileView from "../Pages/Connections/ConnectionProfileView";
 import SendMailTo from "../Modals/SendMailTo";
 import EditProfile from "../Pages/Profile/EditProfile";
 import PostAjob from "../Pages/Jobs/PostAjob";
+
 const RenderModal = ({}) => {
   const [activeModalState, setActiveModalState] = useContext(ActiveModal);
 
@@ -22,6 +24,10 @@ const RenderModal = ({}) => {
       return <EditProfile onClose={onClose} />;
     case "postajob":
       return <PostAjob onClose={onClose} />;
+    case "sendmail":
+      return <SendMailTo onClose={onClose} />;
+    case "profileViewOfConnections":
+      return <ConnectionProfileView onClose={onClose} />;
     default:
       return;
   }

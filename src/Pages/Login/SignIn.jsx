@@ -2,8 +2,12 @@ import React, { useContext, useState } from "react";
 import Button from "../../Hoc/Button";
 import css from "../../Styles/login.module.css";
 import { RenderScreen } from "../../App";
+import useAPI from "../../Hooks/useAPI";
+import { toast } from "react-toastify";
+
 const SignIn = () => {
     const [screen, setScreen] = useContext(RenderScreen);
+    const api = useAPI();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -14,22 +18,49 @@ const SignIn = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        localStorage.setItem("token", "veer");
-        setScreen("root")
-        console.log("Submitted data:", formData);
+        if (formData.email.length >= 2 && formData.password.length >= 8) {
 
-        setFormData({
-            email: "",
-            password: "",
-        });
+            try {
+                const response = await api.postREQUEST("Clogin", JSON.stringify(formData))
+                if (response.token) {
+                    localStorage.setItem("token", response.token)
+                    localStorage.setItem("id", response.data._id)
+                    toast.success("Login Successfully.")
+                    setScreen("root");
+                }
+                else {
+                    toast.error(response.error)
+                    setFormData({
+                        email: "",
+                        password: "",
+                    });
+                }
+            }
+            catch (e) {
+                toast.error(e);
+                setFormData({
+                    email: "",
+                    password: "",
+                });
+            }
+        }
+        else{
+            toast.warning("provide email and passowrd")
+            setFormData({
+                email: "",
+                password: "",
+            });
+        }
+
+        
     };
 
     return (
         <div className={css.main}>
             <form onSubmit={handleSubmit} className={css.form}>
-                <div className={`${css.formHeader}`}>Login : company</div>
+                <div className={`${css.formHeader}`}>Login:Company</div>
                 <div className={`${css.formSlogan} ${css.mt}`}>Step into the realm of security, where each login is a shield against digital intrusion.</div>
                 <div className={`${css.row} ${css.mt}`}>
                     <input
@@ -59,7 +90,7 @@ const SignIn = () => {
                         don't have an account ? <b className={css.formLink} onClick={() => setScreen("signup")}>Sign Up</b>
                     </span>
                 </div>
-                <div className={`${css.row} ${css.mt}`}>
+                <div className={`${css.row} mt-1`}>
                     <span className={css.formFooterText2}>forgot password ? </span>
                 </div>
             </form>

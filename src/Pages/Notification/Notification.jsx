@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Tab from '../../Shared/Tab'
 import css from "../Dashboard/style.module.css"
 import Navbar from '../../Shared/Navbar'
+import { GlobalState } from '../../App'
 const Notification = () => {
+    const [currentState , setCurrentState] = useContext(GlobalState);
     return (
         <>
             <div className={css.body}>
-                <Navbar />
+            <Navbar 
+                    left={`Hello 👋 ${currentState.HRDetail.Name}!`}
+                    />
                 <Tab tabName={"Notifications"} action={
                     <>
                         <span className='fs-5 fw-bold text-primary'>2</span>
