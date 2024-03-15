@@ -6,7 +6,8 @@ import { GlobalState } from "../../App";
 const Body = ({ onClose, style, hidden, setValue }) => {
     const [currentState, setCurrentState] = useContext(GlobalState);
     const [hide, setHide] = useState([]);
-    const user = JSON.parse(localStorage.getItem("connectionId"));
+    const user = JSON.parse(localStorage.getItem("connectionId")); // user data
+    console.log(user);
     const schemaKeysPersonalDetail = [
         "langauges",
         "lastName",
