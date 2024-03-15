@@ -52,8 +52,8 @@ const Body = ({ onClose, style, hidden, setValue }) => {
     const schemaKeysAddress = [
         'state' ,
         'city',
-        'pincode',
-        'pinCode'
+        'pinCode',
+        'personalAddress'
     ];
 
     const filteredData4 = Object.entries(user.location[0]).filter(([key, _]) =>
@@ -89,7 +89,7 @@ const Body = ({ onClose, style, hidden, setValue }) => {
                                             src={user.profileImage}
                                             onError={(e) =>
                                             (e.target.src =
-                                                "https://i.pinimg.com/originals/ec/d9/c2/ecd9c2e8ed0dbbc96ac472a965e4afda.jpg")
+                                                "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png")
                                             }
                                             alt=""
                                             style={{
@@ -211,12 +211,6 @@ const Body = ({ onClose, style, hidden, setValue }) => {
                                     </tr>
                                 </>
                             ))}
-                            <tr>
-                                <td>Institute Name:</td>
-                                <td>
-                                    Shree shambhubhai V. patel college of CS&BM
-                                </td>
-                            </tr>
                         </tbody>
                         <thead className="table-info hand">
                             <tr onClick={() => handleHide("ExperienceDetails")}>

@@ -214,8 +214,7 @@ const Body = ({ onClose }) => {
 const EditProfile = ({ onClose }) => {
     return (
         <Modal
-            body={<Body  onClick={onClose} />}
-            onClose={onClose}
+            body={<Body  onClose={onClose} />}
         />
     )
 }

@@ -3,9 +3,13 @@ import css from "../Styles/modal.module.css"
 import { GlobalState } from '../App'
 import react ,{ useContext, useState } from 'react'
 
-const Body = ({ onClose, style, hidden, setValue }) => {
+const Body = ({ onClose, style, hidden, setValue ,filteredData }) => {
     const [currentState, setCurrentState] = useContext(GlobalState);
     const [hide, setHide] = useState([]);
+    const [data1 ,setData1 ] = useState(filteredData[0]);
+    const [data2 ,setData2 ] = useState(filteredData[1]);
+    const [data3 ,setData3 ] = useState(filteredData[2]);
+    const [data4 ,setData4 ] = useState(filteredData[3]);
 
     const handleHide = (key) => {
 
@@ -70,62 +74,18 @@ const Body = ({ onClose, style, hidden, setValue }) => {
                                 display: "none"
                             } : {}
                         }>
-                            <tr>
-                                <td>FirstName:</td>
-                                <td>veer</td>
-                            </tr>
-                            <tr>
-                                <td>LastName:</td>
-                                <td>Bhesaniya</td>
-                            </tr>
-                        </tbody>
-                        <thead className='table-info hand '>
-                            <tr onClick={() => handleHide("EducationDetails")}>
-                                <th><b>Education Details</b></th>
-                                <th className='text-end '>
-                                    {!hide.includes("EducationDetails") ? <i class="fa-solid fa-caret-right"></i> :
-                                        <i class="fa-solid fa-caret-down"></i>
-                                    }
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className='table-active' style={
-                            !hide.includes("EducationDetails") ? {
-                                display: "none"
-                            } : {}
-                        }>
-                            <tr>
-                                <td className='text-nowrap'>Univercity:</td>
-                                <td className='text-nowrap'>Veer Narmad South Gujarat Univercity</td>
-                            </tr>
-                            <tr>
-                                <td>Institute Name:</td>
-                                <td>Shree shambhubhai V. patel college of CS&BM</td>
-                            </tr>
-                        </tbody>
-                        <thead className='table-info hand'>
-                            <tr onClick={() => handleHide("ExperienceDetails")}>
-                                <th><b>Exprience Details</b></th>
-                                <th className='text-end '>
-                                    {!hide.includes("ExperienceDetails") ? <i class="fa-solid fa-caret-right"></i> :
-                                        <i class="fa-solid fa-caret-down"></i>
-                                    }
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className='table-active' style={
-                            !hide.includes("ExperienceDetails") ? {
-                                display: "none"
-                            } : {}
-                        }>
-                            <tr>
-                                <td>Company Name:</td>
-                                <td className='text-nowrap'>Blue Soft Infotech</td>
-                            </tr>
-                            <tr>
-                                <td>Years:</td>
-                                <td className='text-nowrap'>5 years of experience in this company</td>
-                            </tr>
+                            {data1.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
                         </tbody>
                         <thead className='table-info hand'>
                             <tr onClick={() => handleHide("LocationDetails")}>
@@ -142,14 +102,74 @@ const Body = ({ onClose, style, hidden, setValue }) => {
                                 display: "none"
                             } : {}
                         }>
-                            <tr>
-                                <td>Company Name:</td>
-                                <td className='text-nowrap'>Blue Soft Infotech</td>
+                            {data2.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
+                        </tbody>
+                        <thead className='table-info hand'>
+                            <tr onClick={() => handleHide("HRDetails")}>
+                                <th><b>HR Details</b></th>
+                                <th className='text-end '>
+                                    {!hide.includes("LocationDetails") ? <i class="fa-solid fa-caret-right"></i> :
+                                        <i class="fa-solid fa-caret-down"></i>
+                                    }
+                                </th>
                             </tr>
-                            <tr>
-                                <td>Years:</td>
-                                <td className='text-nowrap'>5 years of experience in this company</td>
+                        </thead>
+                        <tbody className='table-active' style={
+                            !hide.includes("HRDetails") ? {
+                                display: "none"
+                            } : {}
+                        }>
+                            {data3.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
+                        </tbody>
+                        <thead className='table-info hand'>
+                            <tr onClick={() => handleHide("OwnerDetails")}>
+                                <th><b>OWENER Details</b></th>
+                                <th className='text-end '>
+                                    {!hide.includes("LocationDetails") ? <i class="fa-solid fa-caret-right"></i> :
+                                        <i class="fa-solid fa-caret-down"></i>
+                                    }
+                                </th>
                             </tr>
+                        </thead>
+                        <tbody className='table-active' style={
+                            !hide.includes("OwnerDetails") ? {
+                                display: "none"
+                            } : {}
+                        }>
+                            {data4.map(([key, value]) => (
+                                <>
+                                    <tr key={key}>
+                                        <td>{key.toLocaleUpperCase()}</td>
+                                        <td className="text-end">
+                                            {value.length > 0?Array.isArray(value)
+                                                ? value.join(", ")
+                                                : value : "-"}
+                                        </td>
+                                    </tr>
+                                </>
+                            ))}
                         </tbody>
                     </table>
                 </div>

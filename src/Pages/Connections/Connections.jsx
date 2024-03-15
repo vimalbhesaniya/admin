@@ -61,7 +61,7 @@ const Connections = () => {
                                                     <img
                                                         src={`${e.profileImage}`}
                                                         alt=""
-                                                        onError={e=>e.target.src = "https://i.pngimg.me/thumb/f/720/c3f2c592f9.jpg"}
+                                                        onError={e=>e.target.src = "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
                                                         style={{
                                                             width: "45px",
                                                             height: "45px",
