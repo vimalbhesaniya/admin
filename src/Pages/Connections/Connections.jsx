@@ -93,8 +93,8 @@ const Connections = () => {
                                                     type="button"
                                                     onClick={() =>
                                                     {
-                                                        localStorage.setItem("connectionId" , JSON.stringify(e))
                                                         setActiveModalState("profileViewOfConnections")
+                                                        localStorage.setItem("connectionId" , JSON.stringify(e))
                                                     }
                                                     }
                                                     class="btn btn-outline-secondary   btn-rounded"
