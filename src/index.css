@@ -224,7 +224,7 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
-    background: #222222;
+    background: #27313d;
     z-index: 10;
     transition: all 0.5s ease;
 }
@@ -280,22 +280,24 @@ body {
 
 .links--menus {
     padding: 14px;
-    background-color: rgba(125, 127, 128, 0.583);
+    /* background-color: rgba(125, 127, 128, 0.583); */
     gap: 10px;
     width: 100%;
     border-radius: 3px;
     transition: 0.3s all ease-in-out;
     display: flex;
-    color: white;
+    color: rgb(98, 192, 246);
     opacity: 0.5;
     justify-content: center;
     align-items: center;
 }
 
 .links--menu--logo {
-    padding: 14px;
+    padding: 0px;
     /* gap: 10px; */
-    width: 40%;
+    position: relative;
+    bottom: 19px;
+    width: 100%;
     width: 185px;
     border-radius: 3px;
     transition: 0.3s all ease-in-out;
@@ -307,13 +309,13 @@ body {
 
 .links--menusLast {
     padding: 14px;
-    background-color: rgba(125, 127, 128, 0.583);
+    /* background-color: rgba(125, 127, 128, 0.583); */
     gap: 10px;
     width: 100%;
     border-radius: 3px;
     transition: 0.3s all ease-in-out;
     display: flex;
-    color: white;
+    color: rgb(255, 255, 255);
     opacity: 0.8;
     justify-content: center;
     align-items: center;

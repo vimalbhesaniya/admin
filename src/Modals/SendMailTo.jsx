@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Modal from '../render-model/Modal'
 import css from "../Styles/modal.module.css"
-import Button from '../Hoc/Button';
 import { toast } from 'react-toastify';
 import useAPI from '../Hooks/useAPI';
 
@@ -10,7 +9,7 @@ const Body = ({ onClose }) => {
     const to = localStorage.getItem("mailTo")
     const senderEmail = localStorage.getItem("mailFrom")
     const [formData, setFormData] = useState({
-        recipientEmail: to,
+        recipient: to,
         subject: '',
         message: ''
     });
@@ -25,28 +24,22 @@ const Body = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you can perform any additional validations before submitting the form
-        // Then send the email data to your server
-        // console.log('Form Data:', formData);
-        try {
-            const response = await api.postREQUEST("EmailSent", JSON.stringify(formData))
-            if (response) {
-                toast.success("Email Sent Successfully.")
-            }
-            else {
-                toast.error(response.error)
-            }
+        alert("called")
+        const response = await api.postREQUEST("EmailSend", {formData})
+        if (response) {
+            toast.success("Email Sent Successfully.")
+            setFormData({
+                recipient: '',
+                subject: '',
+                message: ''
+            });
         }
-        catch (e) {
-            toast.error(e);
+        else {
+            toast.error(response.error)
         }
-        setFormData({
-            recipientEmail: '',
-            subject: '',
-            message: ''
-        });
-        // Clear the form fields after submission
-    };
+    }
+
+    // Clear the form fields after submission
 
     return (
         <>
@@ -58,15 +51,15 @@ const Body = ({ onClose }) => {
                     </div>
                     <div className="modal-body">
                         {/* Email Form */}
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} method='POST' >
                             <div className="form-group">
-                                <label htmlFor="recipientEmail">Recipient's Email</label>
+                                <label htmlFor="recipient">Recipient's Email</label>
                                 <input
                                     type="email"
                                     className="form-control"
-                                    id="recipientEmail"
-                                    name="recipientEmail"
-                                    value={formData.recipientEmail}
+                                    id="recipient"
+                                    name="recipient"
+                                    value={formData.recipient}
                                     onChange={handleChange}
                                     required
                                 />
@@ -98,7 +91,7 @@ const Body = ({ onClose }) => {
                             <div className='d-flex justify-content-end '>
                                 <div className='d-flex justify-content-end mt-4 gap-2  w-25'>
                                     <button type="submit" onClick={onClose} className="btn btn-outline-primary">Cancle</button>
-                                    <button type="submit" className="btn btn-primary text-nowrap ">Send Email</button>
+                                    <button type="submit" className="btn btn-primary text-nowrap">Send Email</button>
                                 </div>
                             </div>
                         </form>

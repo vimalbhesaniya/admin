@@ -1,10 +1,10 @@
     :root {
-        --text: #142d4c;
+        --text: #1d5396;
         --text-secend: #14355ec1;
-        --btn: #385170;
+        --btn: #0a8bc2;
         --border: rgb(37, 37, 37);
         --btnhover : #1e4d86;
-        --primary: #9fc2d3;
+        --primary: #133b6ba1;
         --primary--light: rgba(14, 149, 211, 0.286);
         --secendory : rgb(106, 104, 104);
         --body: #ececec;
@@ -14,9 +14,9 @@
         --pfont: #2b2b2b;
         --text-color: #252B42;
         --second-text-color: #737373;
-        --second-border-color: #adadad35;
+        --second-border-color: #ffffff;
         --light-gray-1: #FAFAFA;
-        --primary-color: #9cdbff60;   
+        --primary-color: #ffffff60;   
         --success-text-color: #2DC071;
         --muted-color: #BDBDBD;
         --secondary-color-1: #23856D;
@@ -61,6 +61,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(250, 235, 215, 0.32);
     height: 100vh;
 }
 
@@ -70,8 +71,8 @@
 
 .formHeader{
     font-size: xx-large;
-    color: var(--text);
-    font-weight: 500;
+    color: black;
+    font-weight: 600;
 }
 
 .row{
@@ -81,7 +82,7 @@
 }
 
 .mt{
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .formInput{
@@ -92,7 +93,7 @@
     outline: none;
     border: none;
     background-color: var(--primary-color);
-    padding: 20px;
+    padding: 10px;
     color: var(--text);
     font-size: large;
     border-radius: 4px;
@@ -108,7 +109,7 @@
 }
 
 .formInput::placeholder{
-    color: var(--btn);
+    color: var(--primary);
 }
 
 .formSlogan{
@@ -119,7 +120,8 @@
 }
 
 .formFooterText2{
-    text-decoration: underline;
+    color: #0a66c2;
+    font-weight: 600;
     cursor: pointer;
     font-size: large;
 }

@@ -60,7 +60,7 @@ const SignIn = () => {
     return (
         <div className={css.main}>
             <form onSubmit={handleSubmit} className={css.form}>
-                <div className={`${css.formHeader}`}>Login:Company</div>
+                <div className={`${css.formHeader}`}>Sing In</div>
                 <div className={`${css.formSlogan} ${css.mt}`}>Step into the realm of security, where each login is a shield against digital intrusion.</div>
                 <div className={`${css.row} ${css.mt}`}>
                     <input
@@ -91,8 +91,11 @@ const SignIn = () => {
                     </span>
                 </div>
                 <div className={`${css.row} mt-1`}>
-                    <span className={css.formFooterText2}>forgot password ? </span>
+                    <span className={css.formFooterText2}>Forgot Password ? </span>
                 </div>
+                <span className="text-center small">
+                By clicking Agree & Join, you agree to the LinkedIn <span className="text-primary-emphasis ">User Agreement</span> and <span className="text-primary-emphasis ">Privacy Policy.</span>
+                </span>
             </form>
         </div>
     );

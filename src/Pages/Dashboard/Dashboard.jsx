@@ -5,6 +5,7 @@ import Tab from '../../Shared/Tab';
 import Navbar from '../../Shared/Navbar';
 import Applications from "../Applications/Applications"
 import { GlobalState } from '../../App';
+import Refresh from '../../Shared/Refresh';
 const Dashboard = () => {
     const [currentState] = useContext(GlobalState)
     return (
@@ -14,6 +15,9 @@ const Dashboard = () => {
                     left={`Hello 👋 ${currentState?.HRDetail?.Name}!`}
                 />
                 <Tab tabName={"Dashboard"}
+                action={
+                    <Refresh />
+                }
                 />
                 <Counts />
                 <Applications  />

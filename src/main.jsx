@@ -9,12 +9,12 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 // import 'sweetalert2/src/sweetalert2.scss'
 
 // Create context
-const ActiveModal = createContext();
-const ActiveToolTip = createContext();
+const ActiveModal = createContext([()=>{}]);
+const ActiveToolTip = createContext([()=>{}]);
 
 const Root = () => {
-    const [activeModalState, setActiveModalState] = useState("");
-    const [toolTip, setToolTip] = useState(false);
+    let [activeModalState, setActiveModalState] = useState("");
+    let [toolTip, setToolTip] = useState(false);
 
     return (
         <ActiveToolTip.Provider value={[toolTip , setToolTip]}>

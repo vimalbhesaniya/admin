@@ -6,24 +6,26 @@ import "../Connections/style.css"
 import { ActiveModal } from "../../main"
 import Navbar from '../../Shared/Navbar'
 import useAPI from '../../Hooks/useAPI'
-import { GlobalState } from '../../App'
+import { GlobalState, RefreshState } from '../../App'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 
 const Applications = () => {
     const [items, setItems] = useState([])
     const [currentState, setCurrentState] = useContext(GlobalState);
+    const [isRefreshing, setIsRefreshing] = useContext(RefreshState);
     const api = useAPI();
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
     const fetch = useCallback(async () => {
         const cid = localStorage.getItem("id");
         const data = await api.getREQUEST(`applied-users/${cid}`)
-        setItems(data);
+        if (data) {
+            setItems(data);
+
+        }
     })
-    
-    useEffect(() => {
-        fetch()
-    }, [])
+
+
 
     const handleDelete = async (id) => {
         Swal.fire({
@@ -37,14 +39,14 @@ const Applications = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const result = api.deleteREQUEST("delete", "jobapplications", {
+                    const result = await api.deleteREQUEST("delete", "jobapplications", {
                         _id: id
                     })
-                    console.log(result);
+
                     if (result && result.ok) {
                         Swal.fire({
                             title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            text: "Your Application has been deleted.",
                             icon: "success"
                         });
                         fetch();
@@ -57,27 +59,27 @@ const Applications = () => {
             }
         });
     }
-
+    useEffect(() => {
+        fetch()
+    }, [])
     return (
         <>
             <div className={css.body}>
                 <div className={css.containerApp}>
-                    <div className='p-3 bg-white d-flex justify-content-between align-items-center  flex-wrap w-100'>
+                    <div className='p-3 bg-white d-flex rounded-2 justify-content-between align-items-center  flex-wrap w-100'>
                         <div className="">
-                            <span className='fs-5 fw-bolder '>Applications</span>
+                            <span className='fs-5 fw-bolder' style={{color:"rgb(1, 182, 246)"}}>Applications</span>
                         </div>
                         <div className="">
-                            <span className='fs-5 fw-bolder text-warning '>{items.length} </span>
+                            <span className='fs-5 fw-bolder' style={{color:"rgb(1, 182, 246)"}}>{items.length} </span>
                         </div>
-                        <div className="">
-                            <input type="text" className='btn p-3 btn-light fw-bolder ' placeholder="search..." />
-                        </div>
+
                     </div>
                 </div>
                 <div className={css.TableContainer}>
                     <table class="table table-responsive-md  align-middle mb-0 bg-white">
                         <thead class="table-dark ">
-                            <tr>
+                            <tr >
                                 <th className=''>Applicant</th>
                                 <th className=''>Email</th>
                                 <th className=''>Position</th>
@@ -85,6 +87,15 @@ const Applications = () => {
                                 <th className=''>Action</th>
                             </tr>
                         </thead>
+                        {isRefreshing && <thead>
+                            <tr>
+                                <td colSpan={5} className="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>}
                         {items.length > 0 ?
                             items.map((e) => {
                                 return (
@@ -157,9 +168,14 @@ const Applications = () => {
                                         </tr>
                                     </tbody>
                                 );
-                            }) : <td colSpan={4} className="text-center">
-                                <span className="text-center fs-4 font-monospace"><i class="fa-regular fa-face-frown text-danger "></i>No Applications Found!</span>
-                            </td>}
+                            }) :
+                            <thead>
+                                <tr>
+                                    <td colSpan={5} className="text-center">
+                                        <span className="text-center fs-4 font-monospace"><i class="fa-regular fa-face-frown text-danger "></i>No Applications Found!</span>
+                                    </td>
+                                </tr>
+                            </thead>}
                     </table>
                 </div>
 
