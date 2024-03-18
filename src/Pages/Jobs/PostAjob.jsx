@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from '../../render-model/Modal';
 import css from "../../Styles/modal.module.css"
-const Body = ({onClose}) => {
+import useAPI from '../../Hooks/useAPI';
+import { toast } from 'react-toastify';
+import { ActiveModal } from '../../main';
+const Body = ({ onClose }) => {
+    const api = useAPI()
+    let [activerModalState ,setActiveModalState] = useContext(ActiveModal)
+    const id = localStorage.getItem("id")
     const [jobData, setJobData] = useState({
+        company: id,
         Title: '',
         Position: '',
         Description: [],
@@ -31,24 +38,18 @@ const Body = ({onClose}) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you can perform any additional validations before submitting the form
-        // Then send the job data to your server
-        console.log('Job Data:', jobData);
-        // Clear the form fields after submission
-        setJobData({
-            Title: '',
-            Position: '',
-            Description: [],
-            Experience: [],
-            JobType: '',
-            Salary: '',
-            Responsiblities: [],
-            Overview: [],
-            Qualificaion: [],
-            Benifits: []
-        });
+        console.log(jobData);
+        const response = api.postREQUEST("addJob", JSON.stringify(jobData))
+        if (response) {
+            toast.success("Job Posted Successfully");
+            setActiveModalState("");
+        }
+        else {
+            toast.error(api.error);
+        }
+
     };
 
     return (
@@ -62,6 +63,7 @@ const Body = ({onClose}) => {
                             type="text"
                             className="form-control p-3"
                             id="title"
+                            required
                             name="Title"
                             value={jobData.Title}
                             onChange={handleChange}
@@ -75,6 +77,7 @@ const Body = ({onClose}) => {
                             id="position"
                             name="Position"
                             value={jobData.Position}
+                            required
                             onChange={handleChange}
                         />
                     </div>
@@ -86,6 +89,7 @@ const Body = ({onClose}) => {
                             id="description"
                             name="Description"
                             value={jobData.Description}
+                            required
                             onChange={handleArrayChange}
                         />
                     </div>
@@ -94,6 +98,7 @@ const Body = ({onClose}) => {
                         <input
                             type="text"
                             className="form-control p-3"
+                            required
                             id="experience"
                             name="Experience"
                             value={jobData.Experience}
@@ -132,6 +137,7 @@ const Body = ({onClose}) => {
                             type="text"
                             className="form-control p-3"
                             id="responsiblities"
+                            required
                             name="Responsiblities"
                             value={jobData.Responsiblities}
                             onChange={handleArrayChange}

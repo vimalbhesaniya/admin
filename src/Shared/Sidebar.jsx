@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { RenderPage } from "../Pages/Dashboard/Root";
 import { RenderScreen } from "../App";
 import css from "../Shared/shared.module.css"
-import logo from "../Images/white.png";
+import logo from "../Images/logoFooter.png";
 import icon from "../Images/white-icon.png";
 
 const Sidebar = () => {
@@ -16,8 +16,7 @@ const Sidebar = () => {
 
                     <div className="links">
                         <div className="links--menu--logo">
-                            <img src={logo} className="img-fluid lg" style={{height:"45px" , width:"100%"}} alt="" />
-                            <img src={icon} className="img-fluid md" style={{height:"45px" , width:"45px"}} alt="" />
+                            <img src={logo} className="img-fluid lg" style={{width:"100%"}} alt="" />
                         </div>
                         <div
                             onClick={() => {

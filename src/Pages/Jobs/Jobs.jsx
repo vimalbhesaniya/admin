@@ -6,6 +6,7 @@ import Body from './Body'
 import { ActiveModal } from '../../main'
 import Button from '../../Hoc/Button'
 import { GlobalState } from '../../App'
+import Refresh from '../../Shared/Refresh'
 const Jobs = () => {
     const [activeModalState ,setActiveModalState] = useContext(ActiveModal);
     const [currentState , setCurrentState] = useContext(GlobalState);
@@ -17,10 +18,13 @@ const Jobs = () => {
                     />
             <Tab tabName={"Jobs"}
                 action={
-                    <>
+                    <>  
+                    <div className='d-flex gap-2 flex-wrap '>
+                        {/* <Refresh /> */}
                         <button className='btn btn-dark ' onClick={() => {
                             setActiveModalState("postajob")
                         }}><i className='fa fa-plus'></i>  post a job</button>
+                    </div>
                     </>
                 } ></Tab>
             <Body style={css.modalBodyTable} hidden={true} />

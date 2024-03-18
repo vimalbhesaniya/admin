@@ -1,80 +1,67 @@
-import React, { useState, useContext, useCallback, useEffect } from "react";
+import React, {
+    useState,
+    useContext,
+    useCallback,
+    useEffect,
+    useMemo,
+} from "react";
 import Modal from "../../render-model/Modal";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import css from "../../Styles/modal.module.css";
-import { GlobalState } from "../../App";
+import { GlobalState, RefreshState } from "../../App";
 import useAPI from "../../Hooks/useAPI";
-
+import moment from "moment"
 const Body = ({ onClose, style, hidden }) => {
     // const Swal = require('sweetalert2')
     const [hide, setHide] = useState([]);
     const [currentState, setCurrentState] = useContext(GlobalState);
+    const [isRefreshing, setIsRefreshing] = useContext(RefreshState);
     const [data, setData] = useState([]);
-
+    const [filterData, setFilterData] = useState([]);
     const api = useAPI();
-    const companyid = currentState._id;
-    console.log(companyid);
-
-    // console.log(hide);
-    const handleHide = (key) => {
-        setHide((prev) => {
-            if (hide.includes(key)) {
-                return hide.filter((e) => e !== key);
-            } else {
-                return [...prev, key];
-            }
-        });
-    };
+    const companyid = localStorage.getItem("id");
+    const handleHide = useCallback(
+        (key, e) => {
+            setHide((prev) => {
+                setFilterData(Object.entries(e).filter(([key, _]) =>
+                    jobSchemaKeys.includes(key)
+                ));
+                if (hide.includes(key)) {
+                    return hide.filter((e) => e !== key);
+                } else {
+                    return [...prev, key];
+                }
+            });
+        },
+        [hide]
+    );
 
     const fetch = useCallback(async () => {
         const jobs = await api.getREQUEST(`FetchCompanyJobs/${companyid}`);
-        console.log(jobs);
         setData(jobs);
-    })
+        setFilterData[jobs[0]]
+    });
 
     useEffect(() => {
-        fetch()
-    }, [])
+        fetch();
+    }, []);
 
-    const companySchemaKeys = [
-        'Name',
-        'Industry',
-        'Email',
-        'Logo',
-        'TagLine',
-        'Websites',
-        'establishedYear',
-        'Description',
-    ];
-    const filteredData1 = Object.entries(data).filter(([key, _]) =>
-        companySchemaKeys.includes(key)
-    );
-
-    const schemaKeysAddress = [
-        'state' ,
-        'city',
-        'pinCode',
-        'personalAddress'
+    const jobSchemaKeys = [
+        "Description",
+        "Experience",
+        "JobType",
+        "Salary",
+        "Responsiblities",
+        "Overview",
+        "Qualificaion",
+        "Benifits",
     ];
 
-    const filteredData2 = Object.entries(data.Address[0]).filter(([key, _]) =>
-        schemaKeysAddress.includes(key)
-    );
+    useEffect(() => {
 
-    const schemaKeys = [
-        'Name' ,
-        'EmailID',
-    ];
-    const filteredData3 = Object.entries(data.HRDetail).filter(([key, _]) =>
-        schemaKeys.includes(key)
-    );
+    }, [hide]);
 
-    const filteredData4 = Object.entries(data.OwnerDetail).filter(([key, _]) =>
-        schemaKeys.includes(key)
-    );
-
-
-    const handleDelete = () => {
+    const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -84,164 +71,142 @@ const Body = ({ onClose, style, hidden }) => {
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
             allowOutsideClick: true,
-            customClass: "customClass"
-
-
-        }).then((result) => {
+            customClass: "customClass",
+        }).then(async (result) => {
             if (result.isConfirmed) {
+                const res = await api.deleteREQUEST("delete", "jobs", id)
                 Swal.fire({
                     title: "Deleted!",
                     text: "Your file has been deleted.",
-                    icon: "success"
+                    icon: "success",
                 });
+                fetch()
             }
         });
-    }
+    };
 
     return (
         <>
             <div className={style}>
                 <div className={css.TableContainer}>
                     <table className="table table-hover  table-responsive-md  align-middle mb-0 ">
-                        <thead className="">
+                        {isRefreshing && <thead>
                             <tr>
-                                <th>
-                                    <div class="d-flex align-items-center">
-                                        <div class="">
-                                            <p class="fw-bold fs-3">
-                                                Software Developer
-                                            </p>
-                                            <p class="text-text-black-50">
-                                                For Creative Lead
-                                            </p>
-                                            <p class="text-muted">
-                                                Posted On 12/23/2024
-                                            </p>
-                                        </div>
+                                <td colSpan={4} className="text-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
                                     </div>
-                                </th>
-                                <th className="text-center">
-                                    <div className="d-flex justify-content-center gap-2   align-items-end flex-column ">
-                                        <button className="btn fw-bold   btn-outline-primary  ">
-                                            <i class="fa-solid fa-file-pen"></i>{" "}
-                                            Edit
-                                        </button>
-                                        <button className="btn fw-bold  btn-outline-danger"
-                                            onClick={() => handleDelete()}
-                                        >
-                                            <i class="fa-solid fa-trash-can"></i>{" "}
-                                            Delete
-                                        </button>
-                                        <button
-                                            className="btn fw-bold   btn-outline-info"
-                                            onClick={() => handleHide("job")}
-                                        >
-                                            {hide.includes("job") ? (
-                                                <>
-                                                    <i className="fa fa-eye-slash"></i>{" "}
-                                                    hide
-                                                </>
+                                </td>
+                            </tr>
+                        </thead>}
+                        {data?.map((e) => (
+                            <>
+                                <thead className="">
+                                    <tr>
+                                        <th>
+                                            <div class="d-flex align-items-center">
+                                                <div class="">
+                                                    <p class="fw-bold fs-3">
+                                                        {e.Title}
+                                                    </p>
+                                                    <p class="text-text-black-50">
+                                                        {e.Position}
+                                                    </p>
+                                                    <p class="text-muted">
+                                                        Posted On {moment(e.JobPostedTime.split("T")[0], "YYYYMMDD").calendar().split("at")[0]}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th className="text-center">
+                                            <div className="d-flex justify-content-center gap-2   align-items-end flex-column ">
+                                                <button className="btn fw-bold   btn-outline-primary  ">
+                                                    <i class="fa-solid fa-file-pen"></i>{" "}
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    className="btn fw-bold  btn-outline-danger"
+                                                    onClick={() =>
+                                                        handleDelete(e._id)
+                                                    }
+                                                >
+                                                    <i class="fa-solid fa-trash-can"></i>{" "}
+                                                    Delete
+                                                </button>
+                                                <button
+                                                    className="btn fw-bold   btn-outline-info"
+                                                    onClick={() =>
+                                                        handleHide(e._id, e)
+                                                    }
+                                                >
+                                                    {hide.includes(e._id) ? (
+                                                        <>
+                                                            <i className="fa fa-eye-slash"></i>{" "}
+                                                            hide
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <i className="fa fa-eye"></i>{" "}
+                                                            view
+                                                        </>
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <thead className="hand table-info ">
+                                    <tr
+                                        className=""
+                                        onClick={() => handleHide(e._id, e)}
+                                    >
+                                        <th>
+                                            <b>More details</b>
+                                        </th>
+                                        <th className="text-end ">
+                                            {!hide.includes(e._id) ? (
+                                                <i class="fa-solid fa-caret-right"></i>
                                             ) : (
-                                                <>
-                                                    <i className="fa fa-eye"></i>{" "}
-                                                    view
-                                                </>
+                                                <i class="fa-solid fa-caret-down"></i>
                                             )}
-
-                                        </button>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <thead className="hand table-info ">
-                            <tr className="" onClick={() => handleHide("job")}>
-                                <th>
-                                    <b>More details</b>
-                                </th>
-                                <th className="text-end ">
-                                    {!hide.includes("job") ? (
-                                        <i class="fa-solid fa-caret-right"></i>
-                                    ) : (
-                                        <i class="fa-solid fa-caret-down"></i>
-                                    )}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody
-                            className="table-active "
-                            style={
-                                !hide.includes("job")
-                                    ? {
-                                        display: "none",
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody
+                                    className="table-active "
+                                    style={
+                                        !hide.includes(e._id)
+                                            ? {
+                                                display: "none",
+                                            }
+                                            : {}
                                     }
-                                    : {}
-                            }
-                        >
-                            {filteredData1.map(([key, value]) => (
-                                <>
-                                    <tr key={key}>
-                                        <td>{key.toLocaleUpperCase()}</td>
-                                        <td className="text-end">
-                                            {value.length > 0?Array.isArray(value)
-                                                ? value.join(", ")
-                                                : value : "-"}
-                                        </td>
-                                    </tr>
-                                </>
-                            ))}
-                            {filteredData2i.map(([key, value]) => (
-                                <>
-                                    <tr key={key}>
-                                        <td>{key.toLocaleUpperCase()}</td>
-                                        <td className="text-end">
-                                            {value.length > 0?Array.isArray(value)
-                                                ? value.join(", ")
-                                                : value : "-"}
-                                        </td>
-                                    </tr>
-                                </>
-                            ))}
-                            {filteredData3.map(([key, value]) => (
-                                <>
-                                    <tr key={key}>
-                                        <td>{key.toLocaleUpperCase()}</td>
-                                        <td className="text-end">
-                                            {value.length > 0?Array.isArray(value)
-                                                ? value.join(", ")
-                                                : value : "-"}
-                                        </td>
-                                    </tr>
-                                </>
-                            ))}
-                            {filteredData4.map(([key, value]) => (
-                                <>
-                                    <tr key={key}>
-                                        <td>{key.toLocaleUpperCase()}</td>
-                                        <td className="text-end">
-                                            {value.length > 0?Array.isArray(value)
-                                                ? value.join(", ")
-                                                : value : "-"}
-                                        </td>
-                                    </tr>
-                                </>
-                            ))}
-                            
-                            
-                            
-                            {/* {data.map((company, index) => (
-                                < >
-                                    {Object.entries(company).map(([key, value]) => (
-                                        <tr key={key}>
-                                            <td>{key.toLocaleUpperCase()}</td>
-                                            <td className="text-end">
-                                                {Array.isArray(value) ? value.join(", ") : value}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </>
-                            ))} */}
-
-                        </tbody>
+                                >
+                                    {filterData &&
+                                        filterData?.map(([key, value]) => (
+                                            <>
+                                                <tr key={key}>
+                                                    <td>
+                                                        {key.toLocaleUpperCase()}
+                                                    </td>
+                                                    <td className="text-end">
+                                                        {value.length > 0
+                                                            ? Array.isArray(
+                                                                value
+                                                            )
+                                                                ? value.join(
+                                                                    ", "
+                                                                )
+                                                                : value
+                                                            : "-"}
+                                                    </td>
+                                                </tr>
+                                            </>
+                                        ))}
+                                </tbody>
+                            </>
+                        ))}
                     </table>
                 </div>
             </div>

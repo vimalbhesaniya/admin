@@ -4,7 +4,7 @@ const Tab = ({ tabName , action }) => {
     return (
         <div className={css.activeTab}>
             <div>
-                <span className={css.activeTabTitle}>/ {tabName} </span>
+                <span style={{color:"rgb(1, 182, 246)"}} className={css.activeTabTitle}>/ {tabName} </span>
             </div>
             <div>
                 {action}

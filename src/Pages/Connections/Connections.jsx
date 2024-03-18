@@ -28,22 +28,13 @@ const Connections = () => {
                 <Navbar left={`Hello 👋 ${currentState?.HRDetail?.Name}!`} />
                 <Tab
                     tabName={`Connections`}
-                    action={
-                        <>
-                            <input
-                                type="text"
-                                placeholder="Search Connections"
-                                className="form-control w-100 "
-                            />
-                        </>
-                    }
                 />
                 <div className={css.TableContainer}>
                     <table class="table table-responsive-md  align-middle mb-0 ">
                         <thead class="bg-light">
-                        <tr className="w-25">
-                            <th className="w-25 fs-5 fw-bold">{items.length} {items.length >= 1?" Connection ":" Connections "}Found</th>
-                        </tr>
+                            <tr className="w-25">
+                                <th className="w-25 fs-5 fw-bold">{items.length} {items.length >= 1 ? " Connection " : " Connections "}Found</th>
+                            </tr>
                             <tr>
                                 <th className="">Name</th>
                                 <th className="">Location</th>
@@ -61,7 +52,7 @@ const Connections = () => {
                                                     <img
                                                         src={`${e.profileImage}`}
                                                         alt=""
-                                                        onError={e=>e.target.src = "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
+                                                        onError={e => e.target.src = "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
                                                         style={{
                                                             width: "45px",
                                                             height: "45px",
@@ -91,10 +82,9 @@ const Connections = () => {
                                             <td className="">
                                                 <button
                                                     type="button"
-                                                    onClick={() =>
-                                                    {
+                                                    onClick={() => {
                                                         setActiveModalState("profileViewOfConnections")
-                                                        localStorage.setItem("connectionId" , JSON.stringify(e))
+                                                        localStorage.setItem("connectionId", JSON.stringify(e))
                                                     }
                                                     }
                                                     class="btn btn-outline-secondary   btn-rounded"
@@ -105,9 +95,15 @@ const Connections = () => {
                                         </tr>
                                     </tbody>
                                 );
-                            }) : <td colSpan={4} className="text-center">
-                                <span className="text-center fs-4 font-monospace"><i class="fa-regular fa-face-frown text-danger "></i>No Connections Found!</span>
-                            </td>}
+                            }) :
+                            <thead>
+                            <tr>
+                                <td colSpan={5} className="text-center">
+                                    <span className="text-center fs-4 font-monospace"><i class="fa-regular fa-face-frown text-danger "></i>No Connections Found!</span>
+                                </td>
+                            </tr>
+                            </thead>
+                        }
                     </table>
                 </div>
             </div>

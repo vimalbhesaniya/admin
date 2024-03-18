@@ -1,10 +1,13 @@
 import React, { useCallback, useContext } from 'react'
 import { EnableLoader } from '../App'
 import { ErrorState } from '../App'
+import { RefreshState } from '../App'
 import { useState } from 'react'
 const useAPI = () => {
     const [error, setError] = useContext(ErrorState);
     const [loaderState ,setLoaderState] = useContext(EnableLoader);
+    const [isRefreshing, setIsRefreshing] = useContext(RefreshState);
+
     const [data, setData] = useState("")
     // const [error, setError] = useState("")
     const [loading, setLoading] = useState(false);
@@ -23,7 +26,7 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setLoaderState(false);
+                // setLoaderState(false);`
             }
             setData(data);
             return data
@@ -36,7 +39,7 @@ const useAPI = () => {
     }, [data, error, loading]);
     
     const getREQUEST = useCallback(async (PATH, BODY, HEADER) => {
-        setLoaderState(true);
+        setIsRefreshing(true)
         try {
             const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
@@ -48,15 +51,19 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setLoaderState(false);
+                setIsRefreshing(false)
             }
             setData(data);
             return data
         }
         catch (error) {
+            setIsRefreshing(false)
             setLoaderState(false);
             setError(error);
             return error
+        }
+        finally{
+            setIsRefreshing(false)
         }
     }, [data, error, loading]);
     
@@ -68,7 +75,7 @@ const useAPI = () => {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        "authorization": Cookies.get("token")
+                        "authorization": localStorage.getItem("token")
                     },
                     method: "PATCH",
                     body:JSON.stringify({
@@ -98,7 +105,7 @@ const useAPI = () => {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        "authorization": Cookies.get("token")
+                        "authorization": localStorage.getItem("token")
                     },
                     method: "DELETE",
                     body:JSON.stringify({
