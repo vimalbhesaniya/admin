@@ -15,10 +15,10 @@ import { ToastContainer, toast, Slide, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useAPI from "./Hooks/useAPI";
 import ServerError from "./Components/ServerError";
-const RenderScreen = createContext();
-const EnableLoader = createContext();
-const ErrorState = createContext();
-const GlobalState = createContext([()=>{}]);
+const RenderScreen = createContext([()=>{}]);
+const EnableLoader = createContext([()=>{}]);
+const ErrorState = createContext([()=>{}]);
+const GlobalState = createContext([()=> {}]);
 
 function App() {
     const admin = localStorage.getItem("token");
