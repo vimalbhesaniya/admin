@@ -26,14 +26,14 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setLoaderState(false);
+                // setLoaderState(false);`
             }
             setData(data);
             return data
         }
         catch (error) {
             setError(error);
-            setLoaderState(false);
+            // setLoaderState(false);
             return error
         }
     }, [data, error, loading]);
@@ -86,13 +86,13 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                setLoaderState(false)
+                // setLoaderState(false)
                 setData(data);
             }
             return data
         }
         catch (error) {
-            setLoaderState(false);
+            // setLoaderState(false);
             setError(error);
             return error
         }

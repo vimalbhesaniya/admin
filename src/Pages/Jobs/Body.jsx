@@ -11,11 +11,13 @@ import css from "../../Styles/modal.module.css";
 import { GlobalState, RefreshState } from "../../App";
 import useAPI from "../../Hooks/useAPI";
 import moment from "moment"
+import { ActiveModal } from "../../main";
 const Body = ({ onClose, style, hidden }) => {
     // const Swal = require('sweetalert2')
     const [hide, setHide] = useState([]);
     const [currentState, setCurrentState] = useContext(GlobalState);
     const [isRefreshing, setIsRefreshing] = useContext(RefreshState);
+    const [activeModalState, setActiveModalState] = useContext(ActiveModal);
     const [data, setData] = useState([]);
     const [filterData, setFilterData] = useState([]);
     const api = useAPI();
@@ -120,7 +122,9 @@ const Body = ({ onClose, style, hidden }) => {
                                         </th>
                                         <th className="text-center">
                                             <div className="d-flex justify-content-center gap-2   align-items-end flex-column ">
-                                                <button className="btn fw-bold   btn-outline-primary  ">
+                                                <button className="btn fw-bold   btn-outline-primary "
+                                                onClick={()=>setActiveModalState("editjob")}
+                                                >
                                                     <i class="fa-solid fa-file-pen"></i>{" "}
                                                     Edit
                                                 </button>

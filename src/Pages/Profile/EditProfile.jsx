@@ -149,6 +149,20 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             ></textarea>
                         </div>
+<<<<<<< HEAD
+=======
+                        <div className="form-group">
+                            <label className='fs-5 fw-bolder ' htmlFor="secre className=''tKey">Secret Key</label>
+                            <input
+                                type="text"
+                                className="form-control p-3"
+                                id="secretKey"
+                                name="secretKey"
+                                value={companyData.secretKey}
+                                onChange={handleChange}
+                            />
+                        </div>
+>>>>>>> 69df3b6477d8d7e3ae57985cee3b2502603956db
                         <button type="submit" className="btn btn-primary mt-3">Update Profile</button>
                     </form>
                 </div>

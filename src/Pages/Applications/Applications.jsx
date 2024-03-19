@@ -23,8 +23,11 @@ const Applications = () => {
             setItems(data);
         }
     })
-
-
+    console.log(items);
+    
+    useEffect(() => {
+        fetch()
+    }, [])
 
     const handleDelete = async (id) => {
         Swal.fire({

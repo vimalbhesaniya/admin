@@ -9,11 +9,13 @@ const Body = ({ onClose }) => {
     const from=localStorage.getItem("mailFrom")
     const to = localStorage.getItem("mailTo")
     const senderEmail = localStorage.getItem("mailFrom")
+    console.log(senderEmail);
     const [formData, setFormData] = useState({
         sender: from,
         recipient: to,
         subject: '',
-        message: ''
+        message: '' , 
+        from : senderEmail
     });
 
     const handleChange = (e) => {
@@ -26,16 +28,15 @@ const Body = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // alert("called")
-        console.log(formData);
-        const response = await api.postREQUEST("EmailSend", JSON.stringify(formData))
+        alert("called")
+        const response = await api.postREQUEST("EmailSend", {formData})
         if (response) {
             toast.success("Email Sent Successfully.")
-            setFormData({
-                recipient: '',
-                subject: '',
-                message: ''
-            });
+            // setFormData({
+            //     recipient: '',
+            //     subject: '',
+            //     message: ''
+            // });
         }
         else {
             toast.error(response.error)

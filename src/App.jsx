@@ -53,7 +53,7 @@ function App() {
                         <EnableLoader.Provider value={[loaderState, setLoaderState]}>
                             <RenderScreen.Provider value={[screen, setScreen]}>
                                 <ToastContainer
-                                    style={{ zIndex: "10000000000" }}
+                                    style={{ zIndex: "1000000000000000000000000" }}
                                     position="top-center"
                                     autoClose={2000}
                                     limit={1}
