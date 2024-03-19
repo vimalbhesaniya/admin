@@ -41,10 +41,11 @@ const Notification = () => {
                         <span className='fs-5 fw-bold text-primary'>2</span>
                     </>
                 } ></Tab>
+
                 {
                     jobs && jobs.map((e) => {
                         return (
-                            <div className={`alert alert-primary d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
+                            <div className={`alert alert-success d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
                                 <span>{e.userId.firstName} {e.userId.lastName} has applied for the {e.jobId.Title} position.</span>
                                 {/* <span></span> */}
                                 <span><i className='fa fa-close'></i></span>

@@ -1,3 +1,6 @@
+:root{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
 .loader {
     --dim: 3rem;
     width: var(--dim);
@@ -219,10 +222,32 @@ body {
     cursor: pointer;
 }
 
+table thead tr  th{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
+table tbody tr  td{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
+
+span
+{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
+
+div
+{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
+
+p
+{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
 .sidebar {
     position: relative;
     top: 0;
     left: 0;
+    
     height: 100vh;
     background: #27313d;
     z-index: 10;

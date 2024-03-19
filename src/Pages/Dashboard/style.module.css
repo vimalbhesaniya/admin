@@ -20,6 +20,10 @@
 }
 
 
+.title{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+}
+
 .body {
     width: 100%;
     overflow: scroll;
@@ -50,9 +54,11 @@
 .activeTabTitle {
     font-size: larger;
     font-weight: 600;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
 }
 
 .CountContainer {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
     width: 98%;
     height: 350px;
     display: flex;
@@ -67,6 +73,7 @@
 .countCard {
     border-radius: 10px;
     flex: 1 0 auto;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
 }
 
 .countCard:nth-child(1) {
@@ -117,6 +124,7 @@
 
 .countHeader {
     font-weight: 560;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
 }
 
 .countNumber {
@@ -127,6 +135,7 @@
 .num {
     font-size: clamp(50px, 100vh, 20px);
     font-weight: 600;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
 }
 
 @media (max-width : 768px) {

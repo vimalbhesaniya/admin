@@ -2,6 +2,8 @@ import React, { useCallback, useContext, useMemo, useState } from "react";
 import Button from "../../Hoc/Button";
 import css from "../../Styles/login.module.css";
 import { RenderScreen } from "../../App";
+import useAPI from "../../Hooks/useAPI";
+import { toast } from "react-toastify";
 
 
 
@@ -9,6 +11,7 @@ import { RenderScreen } from "../../App";
 const Registration = () => {
     const [screen, setScreen] = useContext(RenderScreen)
     const [warning ,setWarning] = useState("");
+    const api = useAPI()
     const [formData, setFormData] = useState({
         Email: "",
         Password: "",
@@ -61,19 +64,25 @@ const Registration = () => {
     };
 
 
-    const handleSubmit = (event) => {
+    const handleSubmit =async (event) => {
         event.preventDefault();
         if (formData.Email && formData.Password && formData.ConfirmPassword && warning === "") {
-            // setWarning("")
-            alert("good to go...")
+            const res = await api.postREQUEST("addCompany" , JSON.stringify(formData))
+            if (res.success === false) {
+                toast.error(res.messge)
+            }
+            else{
+                toast.success("Registration Successfully")
+                setFormData({
+                    Email: "",
+                    Password: "",
+                    ConfirmPassword: ""
+                });
+
+            }
         }
         else{
             
-            // setFormData({
-            //     Email: "",
-            //     Password: "",
-            //     ConfirmPassword: ""
-            // });
         }
     };
 

@@ -153,6 +153,7 @@
 
   .greetText{
     font-size: larger;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
     font-weight: 600;
   }
 

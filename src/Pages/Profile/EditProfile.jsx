@@ -159,50 +159,6 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group">
-                            <label className='fs-5 fw-bolder ' htmlFor="owner className=''Name">Owner Name</label>
-                            <input
-                                type="text"
-                                className="form-control p-3"
-                                id="ownerName"
-                                name="OwnerDetail.Name"
-                                value={companyData.OwnerDetail.Name}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className='fs-5 fw-bolder ' htmlFor="owner className=''Email">Owner Email</label>
-                            <input
-                                type="email"
-                                className="form-control p-3"
-                                id="ownerEmail"
-                                name="OwnerDetail.EmailID"
-                                value={companyData.OwnerDetail.EmailID}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className='fs-5 fw-bolder ' htmlFor="hrNam className=''e">HR Name</label>
-                            <input
-                                type="text"
-                                className="form-control p-3"
-                                id="hrName"
-                                name="HRDetail.Name"
-                                value={companyData.HRDetail.Name}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label className='fs-5 fw-bolder ' htmlFor="hrEma className=''il">HR Email</label>
-                            <input
-                                type="email"
-                                className="form-control p-3"
-                                id="hrEmail"
-                                name="HRDetail.EmailID"
-                                value={companyData.HRDetail.EmailID}
-                                onChange={handleChange}
-                            />
-                        </div>
                         <button type="submit" className="btn btn-primary mt-3">Update Profile</button>
                     </form>
                 </div>

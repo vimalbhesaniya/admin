@@ -10,43 +10,64 @@ import Notification from '../Notification/Notification'
 import Connections from '../Connections/Connections.jsx'
 import useAPI from '../../Hooks/useAPI.jsx'
 import { GlobalState } from '../../App.jsx'
+import { ActiveModal } from '../../main.jsx'
+import SignUp from '../../Modals/SignUp.jsx'
+
 
 const RenderPage = createContext()
 const Root = () => {
     const api = useAPI();
-    const [ currentState , setCurrentState] = useContext(GlobalState);
-
+    const [currentState, setCurrentState] = useContext(GlobalState);
+    const [activeModalState, setActiveModalState] = useContext(ActiveModal);
+    // const renderCompo = currentState.isProfileComplete?"dashboard" : "isnew"
+    const [page, setPage] = useState()
     useEffect(() => {
-        const fetchApi = async()=>{
+        if (currentState.isProfileComplete) {
+            setPage("dashboard")
+        }
+        else {
+            setPage("isnew")
+        }
+    }, [currentState  , page])
+    useEffect(() => {
+        const fetchApi = async () => {
             const id = localStorage.getItem("id");
             const response = await api.getREQUEST(`company/${id}`)
             setCurrentState(response[0])
         }
         fetchApi()
-    } , [])
+    }, [])
 
-    const [page, setPage] = useState("dashboard")
-    const renderScreen =useCallback(() => {
+    // console.log(currentState.isProfileComplete);
+    // useEffect(() => {
+    //     console.log(renderCompo);
+    //     setPage(renderCompo)
+    // }, [])
+
+    const renderScreen = useCallback(() => {
+
         switch (page) {
             case "dashboard":
                 return <Dashboard />
             case "Connections":
                 return <Connections />
             case "profile":
-                return <Profile/>
+                return <Profile />
             case "jobs":
                 return <Jobs />
             case "notifications":
                 return <Notification />
+            case "isnew":
+                return <SignUp />
             default:
                 break;
         }
-    } , [page])
+    }, [page])
     return (
         <>
-            <RenderPage.Provider value={[page ,setPage]}>
+            <RenderPage.Provider value={[page, setPage]}>
                 <div className={css.main}>
-                    <Sidebar />          
+                    <Sidebar />
                     {renderScreen()}
                 </div>
             </RenderPage.Provider>
@@ -55,4 +76,4 @@ const Root = () => {
 }
 
 export default Root
-export {RenderPage}
+export { RenderPage }
