@@ -21,11 +21,21 @@ const Applications = () => {
         const data = await api.getREQUEST(`applied-users/${cid}`)
         if (data) {
             setItems(data);
+<<<<<<< HEAD
+        }
+    })
+    console.log(items);
+    
+    useEffect(() => {
+        fetch()
+    }, [])
+=======
 
         }
     })
 
 
+>>>>>>> b2a0774ed36f0219c402ce46e503de929257493f
 
     const handleDelete = async (id) => {
         Swal.fire({
@@ -97,14 +107,14 @@ const Applications = () => {
                             </tr>
                         </thead>}
                         {items.length > 0 ?
-                            items.map((e) => {
+                            items?.map((e) => {
                                 return (
                                     <tbody>
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <img
-                                                        src={`${e.userId.profileImage}`}
+                                                        src={`${e?.userId?.profileImage}`}
                                                         alt=""
                                                         onError={e => e.target.src = "https://w7.pngwing.com/pngs/695/655/png-transparent-head-the-dummy-avatar-man-tie-jacket-user.png"}
                                                         style={{
@@ -115,11 +125,11 @@ const Applications = () => {
                                                     />
                                                     <div class="ms-3">
                                                         <p class="fw-bold mb-1">
-                                                            {e.userId.firstName}{" "}
-                                                            {e.userId.lastName}
+                                                            {e?.userId?.firstName}{" "}
+                                                            {e?.userId?.lastName}
                                                         </p>
                                                         <p class="text-muted mb-0">
-                                                            {e.userId.email}
+                                                            {e?.userId?.email}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -130,14 +140,14 @@ const Applications = () => {
                                                         e?.email}
                                                 </p>
                                             </td>
-                                            <td>{e.jobId.Title}</td>
-                                            <td><a href={e.cv} download={true} target='_blank'><i className='fa fa-eye fs-3'></i></a></td>
+                                            <td>{e?.jobId?.Title}</td>
+                                            <td><a href={e?.cv} download={true} target='_blank'><i className='fa fa-eye fs-3'></i></a></td>
                                             <td className="d-grid gap-3">
                                                 <button
                                                     type="button"
                                                     onClick={() => {
                                                         setActiveModalState("profileViewOfConnections")
-                                                        localStorage.setItem("connectionId", JSON.stringify(e.userId))
+                                                        localStorage.setItem("connectionId", JSON.stringify(e?.userId))
                                                     }
                                                     }
                                                     class="btn btn-outline-info fw-bold  btn-rounded"
@@ -147,8 +157,8 @@ const Applications = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => {
-                                                        localStorage.setItem("mailTo", e.email)
-                                                        localStorage.setItem("mailFrom", currentState.Email)
+                                                        localStorage.setItem("mailTo", e?.email)
+                                                        localStorage.setItem("mailFrom", currentState?.Email)
                                                         setActiveModalState("sendmail")
                                                     }}
 
@@ -160,7 +170,7 @@ const Applications = () => {
                                                 <button
                                                     type="button"
                                                     class="btn btn-outline-danger fw-bold   btn-rounded"
-                                                    onClick={() => handleDelete(e._id)}
+                                                    onClick={() => handleDelete(e?._id)}
                                                 >
                                                     <i className='fa fa-close'></i> DELETE
                                                 </button>
