@@ -10,22 +10,14 @@ const Body = ({ onClose }) => {
     let [activerModalState, setActiveModalState] = useContext(ActiveModal);
     let [page, setPage] = useContext(RenderPage);
     const id = localStorage.getItem("id");
-    const [ownerName, setOwnerName] = useState('');
-    const [ownerEmail, setOwnerEmail] = useState('');
-    const [hrName, setHRName] = useState('');
-    const [hrEmail, setHREmail] = useState('');
-    const [personalAddress, setPersonalAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [pinCode, setPinCode] = useState('');
-    const [state, setState] = useState('');
     const [formData, setFormData] = useState({
         isProfileComplete: true,
         Name: "",
         Address: [{
-            personalAddress: personalAddress,
-            pinCode: pinCode,
-            state: state,
-            city:city,
+            personalAddress: "",
+            pinCode: "",
+            state: "",
+            city: "",
         }],
         Industry: "",
         Email: "",
@@ -37,21 +29,40 @@ const Body = ({ onClose }) => {
         Description: [],
         secretKey: "",
         OwnerDetail: {
-            Name: ownerName,
-            EmailID: ownerEmail,
+            Name: "",
+            EmailID: "",
         },
         HRDetail: {
-            Name: hrName,
-            EmailID: hrEmail,
+            Name: "",
+            EmailID: "",
         },
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        if (name.includes('OwnerDetail')) {
+            setFormData({
+                ...formData,
+                OwnerDetail: {
+                    ...formData.OwnerDetail,
+                    [name.split('.')[1]]: value
+                }
+            });
+        } else if (name.includes('HRDetail')) {
+            setFormData({
+                ...formData,
+                HRDetail: {
+                    ...formData.HRDetail,
+                    [name.split('.')[1]]: value
+                }
+            });
+        }
+         else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
 
     console.log(localStorage.getItem("id"));
@@ -109,15 +120,15 @@ const Body = ({ onClose }) => {
                         </div>
                         <div className="form-group">
                             <label>
-                                Email:
+                                Logo:
                             </label>
                             <input
                                 required
                                 className="form-control p-3"
-                                placeholder={"Email"}
-                                type="text"
-                                name="Email"
-                                value={formData.Email}
+                                placeholder={"Logo"}
+                                type="file"
+                                name="Logo"
+                                value={formData.Logo}
                                 onChange={handleChange}
                             />
                         </div>
@@ -132,9 +143,9 @@ const Body = ({ onClose }) => {
                                         className="form-control p-3"
                                         placeholder={"Personal Address"}
                                         type="text"
-                                        name="Personal Address"
-                                        value={personalAddress}
-                                        onChange={(e) => setPersonalAddress(e.target.value)}
+                                        name={`Address[0].personalAddress`} value={formData.Address.personalAddress} onChange={(e) => handleChange(e, index)}
+                                    // value={personalAddress}
+                                    // onChange={(e) => setPersonalAddress(e.target.value)}
                                     />
                                 </div>
                                 <div className="d-flex flex-grow-1  flex-column ">
@@ -146,9 +157,8 @@ const Body = ({ onClose }) => {
                                         className="form-control p-3"
                                         placeholder={"Pincode"}
                                         type="text"
-                                        name="Pincode"
-                                        value={pinCode}
-                                        onChange={(e) => setPinCode(e.target.value)}
+                                        name={`Address[0].pinCode`} value={formData.Address.pinCode} onChange={(e) => handleChange(e, index)}
+
                                     />
                                 </div>
                             </div>
@@ -164,9 +174,7 @@ const Body = ({ onClose }) => {
                                         className="form-control p-3"
                                         placeholder={"State"}
                                         type="text"
-                                        name="State"
-                                        value={state}
-                                        onChange={(e) => setState(e.target.value)}
+                                        name={`Address[0].state`} value={formData.Address.state} onChange={(e) => handleChange(e, index)}
                                     />
                                 </div>
                                 <div className="d-flex flex-grow-1  flex-column ">
@@ -178,9 +186,7 @@ const Body = ({ onClose }) => {
                                         className="form-control p-3"
                                         placeholder={"City"}
                                         type="text"
-                                        name="City"
-                                        value={city}
-                                        onChange={(e) => setCity(e.target.value)}
+                                        name={`Address[0].city`} value={formData.Address.city} onChange={(e) => handleChange(e, index)}
                                     />
                                 </div>
                             </div>
@@ -200,6 +206,7 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         <div className="form-group">
                             <label>
                                 Websites:(Comma(,) saperated)
@@ -252,8 +259,8 @@ const Body = ({ onClose }) => {
                                 placeholder={"Owener Name"}
                                 type="text"
                                 name="OwnerDetail.Name"
-                                value={ownerName}
-                                onChange={(e) => setOwnerName(e.target.value)}
+                                value={formData.OwnerDetail.Name}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group">
@@ -266,8 +273,8 @@ const Body = ({ onClose }) => {
                                 placeholder={"Owner Email"}
                                 type="text"
                                 name="OwnerDetail.EmailID"
-                                value={ownerEmail}
-                                onChange={(e) => setOwnerEmail(e.target.value)}
+                                value={formData.OwnerDetail.EmailID}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group">
@@ -280,8 +287,8 @@ const Body = ({ onClose }) => {
                                 placeholder={"HR Name"}
                                 type="text"
                                 name="HRDetail.Name"
-                                value={hrName}
-                                onChange={(e) => setHRName(e.target.value)}
+                                value={formData.HRDetail.Name}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="form-group">
@@ -294,8 +301,8 @@ const Body = ({ onClose }) => {
                                 placeholder={"HR Email"}
                                 type="text"
                                 name="HRDetail.EmailID"
-                                value={hrEmail}
-                                onChange={(e) => setHREmail(e.target.value)}
+                                value={formData.HRDetail.EmailID}
+                                onChange={handleChange}
                             />
                         </div>
                         <button type="submit" className="bg-primary-subtle btn mt-3 text-center">Submit</button>

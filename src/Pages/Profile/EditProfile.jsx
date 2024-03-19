@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import css from "../../Styles/modal.module.css"
 import Modal from '../../render-model/Modal'
 import useAPI from '../../Hooks/useAPI'
+<<<<<<< HEAD
 import { useEffect } from 'react'
 import useFilestorage from '../../Hooks/useFilestorage'
+=======
+import { useEffect, useCallback } from 'react'
+
+>>>>>>> 3cb6c13e11c91ccf55e9f5f9acd075c892923dab
 
 const Body = ({ onClose }) => {
     const upload=useFilestorage();
@@ -29,6 +34,15 @@ const Body = ({ onClose }) => {
             [name]: value
         }));
     };
+
+
+    useEffect(() => {
+        setprofileImage(url);
+        setCompanyData(prevState=>({
+            ...prevState,
+            Logo : url
+        }))
+    }, [url])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -125,6 +139,20 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             ></textarea>
                         </div>
+<<<<<<< HEAD
+=======
+                        <div className="form-group">
+                            <label className='fs-5 fw-bolder ' htmlFor="secre className=''tKey">Secret Key</label>
+                            <input
+                                type="text"
+                                className="form-control p-3"
+                                id="secretKey"
+                                name="secretKey"
+                                value={companyData.secretKey}
+                                onChange={handleChange}
+                            />
+                        </div>
+>>>>>>> 3cb6c13e11c91ccf55e9f5f9acd075c892923dab
                         <button type="submit" className="btn btn-primary mt-3">Update Profile</button>
                     </form>
                 </div>
