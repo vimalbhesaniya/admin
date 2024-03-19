@@ -87,7 +87,7 @@ const SignIn = () => {
                 </div>
                 <div className={`${css.row} ${css.mt}`}>
                     <span className={css.formFooterText}>
-                        don't have an account ? <b className={css.formLink} onClick={() => setScreen("signup")}>Sign Up</b>
+                        Don't have an account ? <b className={css.formLink} onClick={() => setScreen("signup")}>Sign Up</b>
                     </span>
                 </div>
                 <div className={`${css.row} mt-1`}>

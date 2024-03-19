@@ -24,9 +24,9 @@
     transition: all 200ms ease-in-out ;
 }
 
+
 .botton:hover{
-    outline-color: var(--primary);
-    outline-width: 3px;
-    font-weight: 500;
+    outline-width: 4px;
     outline-style: solid;
+    outline-color: var(--body);
 }

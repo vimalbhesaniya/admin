@@ -26,7 +26,7 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                // setLoaderState(false);`
+                setLoaderState(false);
             }
             setData(data);
             return data

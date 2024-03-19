@@ -10,6 +10,7 @@ import Notification from '../Notification/Notification'
 import Connections from '../Connections/Connections.jsx'
 import useAPI from '../../Hooks/useAPI.jsx'
 import { GlobalState } from '../../App.jsx'
+
 const RenderPage = createContext()
 const Root = () => {
     const api = useAPI();

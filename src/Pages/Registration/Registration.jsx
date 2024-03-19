@@ -1,77 +1,128 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import Button from "../../Hoc/Button";
 import css from "../../Styles/login.module.css";
 import { RenderScreen } from "../../App";
+
+
+
+
 const Registration = () => {
-    const [screen ,setScreen] = useContext(RenderScreen)
+    const [screen, setScreen] = useContext(RenderScreen)
+    const [warning ,setWarning] = useState("");
     const [formData, setFormData] = useState({
         Email: "",
         Password: "",
-        Name: ""
+        ConfirmPassword: ""
     });
 
+
+    const checkPassword = useCallback(() => {
+        if (formData.Password !== "" && formData.ConfirmPassword !== "") {
+            if (formData.Password === formData.ConfirmPassword) {
+                if (formData.Password.length <= 7 && formData.ConfirmPassword.length <=7) {
+                    setWarning("Password must be 8 charactor long")
+                    return false
+                }else{
+                    setWarning("")
+                    return true
+                }
+            }
+            else {
+                setWarning("password does not matched")
+                return false
+            }
+        }
+        else {
+            return false
+        }
+    }, [formData.Password, formData.ConfirmPassword])
+
+    const validateEmail = useCallback((email) => {
+        const pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(email.match(pattern))
+        {
+            setWarning("")
+            return true
+        }
+        else{            
+            setWarning("Provide valid email address")
+            return false
+        }
+    } , [formData.Email])
+    // const checkEmail = useMemo(()=>{ 
+    //     return validateEmail(formData.Email)
+    // } , [])
+
+
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
     };
 
+
     const handleSubmit = (event) => {
         event.preventDefault();
-
-        console.log("Submitted data:", formData);
-
-        setFormData({
-            Email: "",
-            password: "",
-            Name: ""
-        });
+        if (formData.Email && formData.Password && formData.ConfirmPassword && warning === "") {
+            // setWarning("")
+            alert("good to go...")
+        }
+        else{
+            
+            // setFormData({
+            //     Email: "",
+            //     Password: "",
+            //     ConfirmPassword: ""
+            // });
+        }
     };
 
     return (
         <div className={css.main}>
             <form onSubmit={handleSubmit} className={css.form}>
-                <div className={`${css.formHeader}`}>Company Regisration</div>
-                <div className={`${css.formSlogan} ${css.mt}`}>Let's create your account</div>
+                <div className={`${css.formHeader}`}>Sign Up</div>
+                <div className={`${css.formSlogan} ${css.mt}`}>Partnering with Our Job Portal Connects You with Endless Opportunities, Elevating Your Professional Journey to New Heights!</div>
                 <div className={`${css.row} ${css.mt}`}>
                     <input
                         type="text"
                         className={css.formInput}
                         placeholder="Email"
                         onChange={handleChange}
-                        name="email"
+                        onKeyUp={(e) => validateEmail(e.target.value)}
+                        name="Email"
+                        onBlur={(e) => validateEmail(e.target.value)}
                         value={formData.Email}
                     />
                 </div>
+                    <span className="text-danger">{warning}</span>
                 <div className={`${css.row} ${css.g} ${css.mt}`}>
                     <input
-                        type="text"
+                        type="password"
                         className={css.formInput}
                         placeholder="Password"
-                        name="password"
+                        name="Password"
+                        onKeyUp={()=>checkPassword()}
                         onChange={handleChange}
                         value={formData.Password}
                     />
                     <input
-                        type="text"
+                        type="password"
                         className={css.formInput}
                         placeholder="Confirm Password"
-                        name="confirmPassword"
+                        name="ConfirmPassword"
+                        onKeyUp={()=>checkPassword()}
                         onChange={handleChange}
-                        value={formData.Password}
+                        value={formData.ConfirmPassword}
                     />
                 </div>
                 <div className={`${css.row} ${css.mt}`}>
-                    <input
-                        type="text"
-                        className={css.formInput}
-                        placeholder="Company Name"
-                        onChange={handleChange}
-                        name="name"
-                        value={formData.Email}
-                    />
-                </div>
-                <div className={`${css.row} ${css.mt}`}>
-                    <Button type="text" text={"Create account"} />
+                    <button type="submit"  
+                    className={
+                        warning?css.bottonDisabled:
+                        css.botton
+                        }
+                    
+                    >Join Now</button>
                 </div>
                 <div className={`${css.row} ${css.mt}`}>
                     <div className={`${css.row} ${css.mt}`}>
