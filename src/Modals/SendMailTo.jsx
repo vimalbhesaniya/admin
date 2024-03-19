@@ -6,9 +6,11 @@ import useAPI from '../Hooks/useAPI';
 
 const Body = ({ onClose }) => {
     const api = useAPI();
+    const from=localStorage.getItem("mailFrom")
     const to = localStorage.getItem("mailTo")
     const senderEmail = localStorage.getItem("mailFrom")
     const [formData, setFormData] = useState({
+        sender: from,
         recipient: to,
         subject: '',
         message: ''
@@ -24,8 +26,9 @@ const Body = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        alert("called")
-        const response = await api.postREQUEST("EmailSend", {formData})
+        // alert("called")
+        console.log(formData);
+        const response = await api.postREQUEST("EmailSend", JSON.stringify(formData))
         if (response) {
             toast.success("Email Sent Successfully.")
             setFormData({

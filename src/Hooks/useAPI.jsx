@@ -12,7 +12,7 @@ const useAPI = () => {
     // const [error, setError] = useState("")
     const [loading, setLoading] = useState(false);
     const postREQUEST = useCallback(async (PATH, BODY, HEADER) => {
-        setLoaderState(true);
+        // setLoaderState(true);
         try {
             const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
@@ -26,7 +26,7 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                // setLoaderState(false);`
+                setLoaderState(false);
             }
             setData(data);
             return data
@@ -70,7 +70,7 @@ const useAPI = () => {
     
     const patchREQUEST = useCallback(async (PATH,COLLECTION_NAME  ,_id, COLUMNS ) => {
         try {
-            setLoaderState(true)
+            // setLoaderState(true)
             const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
                 {
                     headers: {

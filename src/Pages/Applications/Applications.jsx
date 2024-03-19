@@ -21,21 +21,10 @@ const Applications = () => {
         const data = await api.getREQUEST(`applied-users/${cid}`)
         if (data) {
             setItems(data);
-<<<<<<< HEAD
-        }
-    })
-    console.log(items);
-    
-    useEffect(() => {
-        fetch()
-    }, [])
-=======
-
         }
     })
 
 
->>>>>>> b2a0774ed36f0219c402ce46e503de929257493f
 
     const handleDelete = async (id) => {
         Swal.fire({
