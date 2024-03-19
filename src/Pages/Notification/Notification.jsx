@@ -9,6 +9,7 @@ const Notification = () => {
     const [currentState, setCurrentState] = useContext(GlobalState);
     const [users, setUsers] = useState([]);
     const [jobs, setJobs] = useState([]);
+    const [countLength, setCountLength] = useState(jobs.length + users.length)
     const api = useAPI();
 
     const cid = localStorage.getItem("id");
@@ -17,14 +18,14 @@ const Notification = () => {
         if (data) {
             setJobs(data);
         }
-        
+
     })
     const fetchUsers = useCallback(async () => {
         const data = await api.getREQUEST(`getConnections/${cid}`);
         if (data) {
             setUsers(data);
         }
-        
+
     })
 
     useEffect(() => {
@@ -39,14 +40,15 @@ const Notification = () => {
                 />
                 <Tab tabName={"Notifications"} action={
                     <>
-                        <span className='fs-5 fw-bold text-primary'>2</span>
+                        <span className='fs-5 fw-bold text-primary'>{countLength}</span>
                     </>
-                } ></Tab>
+                }></Tab>
                 {
-                    !jobs && !users && <>no data</>
-                
+                    !jobs && !users&&<>
+                        <span className='alert alert-danger '> No data found</span>
+                    </>
+                    
                 }
-
                 {
                     jobs && Array.isArray(users) && jobs?.map((e) => {
                         return (
