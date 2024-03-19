@@ -2,21 +2,20 @@ import React, { useState } from 'react'
 import css from "../../Styles/modal.module.css"
 import Modal from '../../render-model/Modal'
 import useAPI from '../../Hooks/useAPI'
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import useFilestorage from '../../Hooks/useFilestorage'
 
 const Body = ({ onClose }) => {
-    const upload = useFilestorage();
+    const upload=useFilestorage();
     const [profileImage, setprofileImage] = useState("");
     const url = upload.imageUrl
     const api = useAPI();
-    const id = localStorage.getItem("id");
+    const id=localStorage.getItem("id");
     const [companyData, setCompanyData] = useState({
         Name: '',
         Address: [],
         Industry: '',
         Email: '',
-        Logo: '',
         TagLine: '',
         Websites: [],
         establishedYear: '',
@@ -31,21 +30,9 @@ const Body = ({ onClose }) => {
         }));
     };
 
-    const handleLogo = async (e) => {
-        await upload.Upload(e.target.value, '/userprofiles', 'image/jpeg');
-    }
-
-    useEffect(() => {
-        setprofileImage(url);
-        setCompanyData(prevState=>({
-            ...prevState,
-            Logo : url
-        }))
-    }, [url])
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await api.patchREQUEST("updateDetails", "companies", id, JSON.stringify(companyData));
+        const result = await api.patchREQUEST("updateDetails","companies",id,JSON.stringify(companyData));
         console.log(result);
     };
 
@@ -95,17 +82,6 @@ const Body = ({ onClose }) => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className='fs-5 fw-bolder ' htmlFor="logo" >Logo</label>
-                            <input
-                                type="file"
-                                className="form-control p-3"
-                                id="logo"
-                                name="Logo"
-                                value={companyData.Logo}
-                                onChange={handleLogo}
-                            />
-                        </div>
-                        <div className="form-group">
                             <label className='fs-5 fw-bolder ' htmlFor="tagli className=''ne">Tagline</label>
                             <input
                                 type="text"
@@ -149,20 +125,6 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             ></textarea>
                         </div>
-<<<<<<< HEAD
-=======
-                        <div className="form-group">
-                            <label className='fs-5 fw-bolder ' htmlFor="secre className=''tKey">Secret Key</label>
-                            <input
-                                type="text"
-                                className="form-control p-3"
-                                id="secretKey"
-                                name="secretKey"
-                                value={companyData.secretKey}
-                                onChange={handleChange}
-                            />
-                        </div>
->>>>>>> 69df3b6477d8d7e3ae57985cee3b2502603956db
                         <button type="submit" className="btn btn-primary mt-3">Update Profile</button>
                     </form>
                 </div>
