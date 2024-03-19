@@ -3,7 +3,7 @@ import css from "../../Styles/modal.module.css"
 import Modal from '../../render-model/Modal'
 import useAPI from '../../Hooks/useAPI'
 import { useEffect, useCallback } from 'react'
-import useFilestorage from '../../Hooks/useFilestorage'
+
 
 const Body = ({ onClose }) => {
     const upload = useFilestorage();
@@ -31,9 +31,6 @@ const Body = ({ onClose }) => {
         }));
     };
 
-    const handleLogo = async (e) => {
-        await upload.Upload(e.target.value, '/userprofiles', 'image/jpeg');
-    }
 
     useEffect(() => {
         setprofileImage(url);
@@ -149,8 +146,6 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             ></textarea>
                         </div>
-<<<<<<< HEAD
-=======
                         <div className="form-group">
                             <label className='fs-5 fw-bolder ' htmlFor="secre className=''tKey">Secret Key</label>
                             <input
@@ -162,7 +157,6 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             />
                         </div>
->>>>>>> 69df3b6477d8d7e3ae57985cee3b2502603956db
                         <button type="submit" className="btn btn-primary mt-3">Update Profile</button>
                     </form>
                 </div>

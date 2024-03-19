@@ -17,15 +17,16 @@ const Notification = () => {
         if (data) {
             setJobs(data);
         }
+        
     })
     const fetchUsers = useCallback(async () => {
         const data = await api.getREQUEST(`getConnections/${cid}`);
         if (data) {
             setUsers(data);
         }
+        
     })
-    console.log(jobs);
-    console.log(users);
+
     useEffect(() => {
         fetchJobs();
         fetchUsers();
@@ -41,12 +42,16 @@ const Notification = () => {
                         <span className='fs-5 fw-bold text-primary'>2</span>
                     </>
                 } ></Tab>
+                {
+                    !jobs && !users && <>no data</>
+                
+                }
 
                 {
-                    jobs && jobs.map((e) => {
+                    jobs && Array.isArray(users) && jobs?.map((e) => {
                         return (
                             <div className={`alert alert-success d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
-                                <span>{e.userId.firstName} {e.userId.lastName} has applied for the {e.jobId.Title} position.</span>
+                                <span>{e?.userId?.firstName} {e?.userId?.lastName} has applied for the {e?.jobId?.Title} position.</span>
                                 {/* <span></span> */}
                                 <span><i className='fa fa-close'></i></span>
                             </div>
@@ -54,10 +59,10 @@ const Notification = () => {
                     })
                 }
                 {
-                    users && users.map((e) => {
+                    users && Array.isArray(users) && users?.map((e) => {
                         return (
                             <div className={`alert alert-primary d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
-                                <span>You've gained a new connection: {e.firstName} {e.lastName}</span>
+                                <span>You've gained a new connection: {e?.firstName} {e?.lastName}</span>
                                 <span><i className='fa fa-close'></i></span>
                             </div>
                         )

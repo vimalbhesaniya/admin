@@ -5,14 +5,6 @@ import "./index.css";
 import RenderModal from "./render-model/RenderModal.jsx";
 import { createContext } from 'react';
 import 'react-tooltip/dist/react-tooltip.css'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import firebase from "firebase/compat/app"
-const firebaseConfig = {
-    storageBucket: import.meta.env.REACT_APP_STORAGE_BUCKET
-};
-firebase.initializeApp(firebaseConfig)
-// import 'sweetalert2/src/sweetalert2.scss'
-
 // Create context
 const ActiveModal = createContext([()=>{}]);
 const ActiveToolTip = createContext([()=>{}]);
