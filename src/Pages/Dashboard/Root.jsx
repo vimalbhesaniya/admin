@@ -21,14 +21,16 @@ const Root = () => {
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
     // const renderCompo = currentState.isProfileComplete?"dashboard" : "isnew"
     const [page, setPage] = useState()
+
+
     useEffect(() => {
-        if (currentState.isProfileComplete) {
-            setPage("dashboard")
-        }
-        else {
-            setPage("isnew")
-        }
-    }, [currentState  , page])
+            if (currentState.isProfileComplete) {
+                setPage("dashboard")
+            }
+            else {
+                setPage("isnew")
+            }
+    }, [currentState])
     useEffect(() => {
         const fetchApi = async () => {
             const id = localStorage.getItem("id");
