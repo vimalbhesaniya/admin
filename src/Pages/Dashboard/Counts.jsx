@@ -9,7 +9,7 @@ const Counts = () => {
                     <span className={css.title}> Applications</span>
                 </div>
                 <div className={css.countNumber}>
-                    <span className={css.num}> 103</span>
+                    <span className={css.num}> 1</span>
                 </div>
             </div>
             <div className={css.countCard}>
@@ -18,7 +18,7 @@ const Counts = () => {
                     <span className={css.title}> Connections</span>
                 </div>
                 <div className={css.countNumber}>
-                    <span className={css.num}> 103</span>
+                    <span className={css.num}> 1</span>
                 </div>
             </div>
             <div className={css.countCard}>
@@ -27,7 +27,7 @@ const Counts = () => {
                     <span className={css.title}> Jobs</span>
                 </div>
                 <div className={css.countNumber}>
-                    <span className={css.num}> 103</span>
+                    <span className={css.num}> 1</span>
                 </div>
             </div>
             <div className={css.countCard}>
@@ -36,7 +36,7 @@ const Counts = () => {
                     <span className={css.title}> Feedbacks</span>
                 </div>
                 <div className={css.countNumber}>
-                    <span className={css.num}> 103</span>
+                    <span className={css.num}>0</span>
                 </div>
             </div>
         </div>

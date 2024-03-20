@@ -74,7 +74,7 @@ const SignIn = () => {
                 </div>
                 <div className={`${css.row} ${css.mt}`}>
                     <input
-                        type="text"
+                        type="password"
                         className={css.formInput}
                         placeholder="Password"
                         name="password"

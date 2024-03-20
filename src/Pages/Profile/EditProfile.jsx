@@ -30,7 +30,7 @@ const Body = ({ onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(companyData);
-        const result = await api.patchREQUEST("updateDetails","companies",id,JSON.stringify(companyData));
+        const result = await api.patchREQUEST("updateDetails","companies",id,companyData);
         console.log(result);
     };
 
