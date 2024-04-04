@@ -5,7 +5,7 @@ import css from "../Dashboard/style.module.css";
 import Navbar from "../../Shared/Navbar";
 import { useContext } from "react";
 import { ActiveModal } from "../../main";
-import { GlobalState } from "../../App";
+import { GlobalState } from '../../main'
 const Profile = () => {
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
     const [currentState, setCurrentState] = useContext(GlobalState);

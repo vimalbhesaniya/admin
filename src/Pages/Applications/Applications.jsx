@@ -6,7 +6,8 @@ import "../Connections/style.css"
 import { ActiveModal } from "../../main"
 import Navbar from '../../Shared/Navbar'
 import useAPI from '../../Hooks/useAPI'
-import { GlobalState, RefreshState } from '../../App'
+import {  RefreshState } from '../../App'
+import { GlobalState } from '../../main'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 

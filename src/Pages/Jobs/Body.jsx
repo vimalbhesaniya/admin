@@ -8,7 +8,8 @@ import React, {
 import Modal from "../../render-model/Modal";
 import Swal from "sweetalert2";
 import css from "../../Styles/modal.module.css";
-import { GlobalState, RefreshState } from "../../App";
+import {  RefreshState } from "../../App";
+import { GlobalState } from '../../main'
 import useAPI from "../../Hooks/useAPI";
 import moment from "moment"
 import { ActiveModal } from "../../main";

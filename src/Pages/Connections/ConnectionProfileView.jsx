@@ -1,7 +1,7 @@
 import css from "../../Styles/modal.module.css";
 import react, { useCallback, useContext, useState } from "react";
 import Modal from "../../render-model/Modal";
-import { GlobalState } from "../../App";
+import { GlobalState } from '../../main'
 
 const Body = ({ onClose, style, hidden, setValue }) => {
     const [currentState, setCurrentState] = useContext(GlobalState);

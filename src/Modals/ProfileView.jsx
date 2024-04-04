@@ -1,6 +1,6 @@
 import Modal from '../render-model/Modal'
 import css from "../Styles/modal.module.css"
-import { GlobalState } from '../App'
+import { GlobalState } from '../main'
 import react ,{ useContext, useState } from 'react'
 
 const Body = ({ onClose, style, hidden, setValue ,filteredData }) => {

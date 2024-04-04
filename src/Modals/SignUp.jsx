@@ -20,8 +20,6 @@ const Body = ({ onClose }) => {
             city: "",
         }],
         Industry: "",
-        Email: "",
-        Password: "",
         Logo: "",
         TagLine: "",
         Websites: [],
@@ -38,7 +36,7 @@ const Body = ({ onClose }) => {
         },
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e, index) => {
         const { name, value } = e.target;
         if (name.includes('OwnerDetail')) {
             setFormData({
@@ -56,22 +54,32 @@ const Body = ({ onClose }) => {
                     [name.split('.')[1]]: value
                 }
             });
-        }
-         else {
+        } else if (name.includes('Address')) {
+            const updatedAddress = [...formData.Address];
+            updatedAddress[index] = {
+                ...updatedAddress[index],
+                [name.split('.')[1]]: value
+            };
             setFormData({
                 ...formData,
-                [name]: value
+                Address: updatedAddress
             });
+        } else {
+                setFormData({
+                    ...formData,
+                    [name]: value
+                });
         }
     };
 
-    console.log(localStorage.getItem("id"));
     const handleSubmit = async (e) => {
         alert("submitt")
         setPage("dashboard")
-
+        
         e.preventDefault();
         try {
+            console.log(id);
+            console.log(formData);
             // You need to replace 'API_ENDPOINT' with your actual API endpoint
             const response = await api.patchREQUEST("updateDetails", "companies", id, formData);
             console.log(response);
@@ -132,66 +140,70 @@ const Body = ({ onClose }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group">
-                            <div className="form-group d-flex gap-2" >
-                                <div className="d-flex flex-grow-1  flex-column ">
-                                    <label>
-                                        Personal Address:
-                                    </label>
-                                    <input
-                                        required
-                                        className="form-control p-3"
-                                        placeholder={"Personal Address"}
-                                        type="text"
-                                        name={`Address[0].personalAddress`} value={formData.Address.personalAddress} onChange={(e) => handleChange(e, index)}
-                                    // value={personalAddress}
-                                    // onChange={(e) => setPersonalAddress(e.target.value)}
-                                    />
+                        {formData.Address.map((address, index) => (
+                            <div className="form-group" key={index}>
+                                <div className="form-group d-flex gap-2" >
+                                    <div className="d-flex flex-grow-1 flex-column ">
+                                        <label>
+                                            Personal Address:
+                                        </label>
+                                        <input
+                                            required
+                                            className="form-control p-3"
+                                            placeholder={"Personal Address"}
+                                            type="text"
+                                            name={`Address[${index}].personalAddress`}
+                                            value={formData.Address.personalAddress}
+                                            onChange={(e) => handleChange(e, index)}
+                                        />
+                                    </div>
+                                    <div className="d-flex flex-grow-1 flex-column ">
+                                        <label>
+                                            Pincode:
+                                        </label>
+                                        <input
+                                            required
+                                            className="form-control p-3"
+                                            placeholder={"Pincode"}
+                                            type="text"
+                                            name={`Address[${index}].pinCode`}
+                                            value={formData.Address.pinCode}
+                                            onChange={(e) => handleChange(e, index)}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="d-flex flex-grow-1  flex-column ">
-                                    <label>
-                                        Pincode:
-                                    </label>
-                                    <input
-                                        required
-                                        className="form-control p-3"
-                                        placeholder={"Pincode"}
-                                        type="text"
-                                        name={`Address[0].pinCode`} value={formData.Address.pinCode} onChange={(e) => handleChange(e, index)}
-
-                                    />
+                                <div className="form-group d-flex gap-2">
+                                    <div className="d-flex flex-grow-1 flex-column ">
+                                        <label>
+                                            State:
+                                        </label>
+                                        <input
+                                            required
+                                            className="form-control p-3"
+                                            placeholder={"State"}
+                                            type="text"
+                                            name={`Address[${index}].state`}
+                                            value={formData.Address.state}
+                                            onChange={(e) => handleChange(e, index)}
+                                        />
+                                    </div>
+                                    <div className="d-flex flex-grow-1 flex-column ">
+                                        <label>
+                                            City:
+                                        </label>
+                                        <input
+                                            required
+                                            className="form-control p-3"
+                                            placeholder={"City"}
+                                            type="text"
+                                            name={`Address[${index}].city`}
+                                            value={formData.Address.city}
+                                            onChange={(e) => handleChange(e, index)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="form-group d-flex gap-2">
-                                <div className="d-flex flex-grow-1  flex-column ">
-                                    <label>
-                                        State:
-                                    </label>
-                                    <input
-                                        required
-                                        className="form-control p-3"
-                                        placeholder={"State"}
-                                        type="text"
-                                        name={`Address[0].state`} value={formData.Address.state} onChange={(e) => handleChange(e, index)}
-                                    />
-                                </div>
-                                <div className="d-flex flex-grow-1  flex-column ">
-                                    <label>
-                                        City:
-                                    </label>
-                                    <input
-                                        required
-                                        className="form-control p-3"
-                                        placeholder={"City"}
-                                        type="text"
-                                        name={`Address[0].city`} value={formData.Address.city} onChange={(e) => handleChange(e, index)}
-                                    />
-                                </div>
-                            </div>
-
-                        </div>
+                        ))}
                         <div className="form-group">
                             <label>
                                 Tagline:

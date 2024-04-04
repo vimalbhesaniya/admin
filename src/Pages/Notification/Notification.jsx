@@ -2,7 +2,7 @@ import React, { useContext, useState, useCallback, useEffect } from 'react'
 import Tab from '../../Shared/Tab'
 import css from "../Dashboard/style.module.css"
 import Navbar from '../../Shared/Navbar'
-import { GlobalState } from '../../App'
+import { GlobalState } from '../../main'
 import useAPI from '../../Hooks/useAPI'
 
 const Notification = () => {

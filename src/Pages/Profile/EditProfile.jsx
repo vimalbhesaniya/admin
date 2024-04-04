@@ -3,34 +3,45 @@ import css from "../../Styles/modal.module.css"
 import Modal from '../../render-model/Modal'
 import useAPI from '../../Hooks/useAPI'
 import { useEffect, useCallback } from 'react'
-
+import { useContext } from 'react'
+import { GlobalState } from '../../main'
 
 const Body = ({ onClose }) => {
     const api = useAPI();
-    const id=localStorage.getItem("id");
-    const [companyData, setCompanyData] = useState({
-        Name: '',
-        Industry: '',
-        Email: '',
-        TagLine: '',
-        Websites: [],
-        establishedYear: '',
-        Description: []
-    });
+    const [currentState, setCurrentState] = useContext(GlobalState);
+    console.log(currentState);
+    const web = currentState.Websites.join(" , ");
+    const desc = currentState.Description.join(" , ");
+    const id = localStorage.getItem("id");
+    const [Name, setName] = useState(currentState.Name);
+    const [Industry, setIndustry] = useState(currentState.Industry);
+    const [Email, setEmail] = useState(currentState.Email);
+    const [TagLine, setTagLine] = useState(currentState.TagLine);
+    const [establishedYear, setEsatablishedYear] = useState(currentState.establishedYear);
+    const [Descriptions, setDescription] = useState(desc);
+    const [Website, setWebsites] = useState(web);
+    const [Address, setAddress] = useState({
+        personalAddress: currentState.Address[0].personalAddress,
+        pinCode: currentState.Address[0].pinCode,
+        state: currentState.Address[0].state,
+        city: currentState.Address[0].city,
+    })
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setCompanyData(prevState => ({
-            ...prevState,
+        setAddress({
+            ...Address,
             [name]: value
-        }));
-    };
-    
+        });
+    }
+
+    const Websites = Website.split(",");
+    const Description = Descriptions.split(",");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(companyData);
-        const result = await api.patchREQUEST("updateDetails","companies",id,companyData);
+        console.log(Address);
+        const result = await api.patchREQUEST("updateDetails", "companies", id, { Name, Industry, Email, Address, TagLine, establishedYear, Description, Websites });
         console.log(result);
     };
 
@@ -53,8 +64,8 @@ const Body = ({ onClose }) => {
                                 className="form-control p-3"
                                 id="name"
                                 name="Name"
-                                value={companyData.Name}
-                                onChange={handleChange}
+                                value={Name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
@@ -64,8 +75,8 @@ const Body = ({ onClose }) => {
                                 className="form-control p-3"
                                 id="industry"
                                 name="Industry"
-                                value={companyData.Industry}
-                                onChange={handleChange}
+                                value={Industry}
+                                onChange={(e) => setIndustry(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
@@ -75,10 +86,74 @@ const Body = ({ onClose }) => {
                                 className="form-control p-3"
                                 id="email"
                                 name="Email"
-                                value={companyData.Email}
-                                onChange={handleChange}
+                                value={Email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
+                        {/* {Address.map((address, index) => ( */}
+                        <div className="form-group">
+                            <div className="form-group d-flex gap-2" >
+                                <div className="d-flex flex-grow-1 flex-column ">
+                                    <label>
+                                        Personal Address:
+                                    </label>
+                                    <input
+                                        required
+                                        className="form-control p-3"
+                                        placeholder={"Personal Address"}
+                                        type="text"
+                                        name={"personalAddress"}
+                                        value={Address.personalAddress}
+                                        onChange={(e) => handleChange(e)}
+                                    />
+                                </div>
+                                <div className="d-flex flex-grow-1 flex-column ">
+                                    <label>
+                                        Pincode:
+                                    </label>
+                                    <input
+                                        required
+                                        className="form-control p-3"
+                                        placeholder={"Pincode"}
+                                        type="text"
+                                        name={"pinCode"}
+                                        value={Address.pinCode}
+                                        onChange={(e) => handleChange(e)}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group d-flex gap-2">
+                                <div className="d-flex flex-grow-1 flex-column ">
+                                    <label>
+                                        State:
+                                    </label>
+                                    <input
+                                        required
+                                        className="form-control p-3"
+                                        placeholder={"State"}
+                                        type="text"
+                                        name={"state"}
+                                        value={Address.state}
+                                        onChange={(e) => handleChange(e)}
+                                    />
+                                </div>
+                                <div className="d-flex flex-grow-1 flex-column ">
+                                    <label>
+                                        City:
+                                    </label>
+                                    <input
+                                        required
+                                        className="form-control p-3"
+                                        placeholder={"City"}
+                                        type="text"
+                                        name={"city"}
+                                        value={Address.city}
+                                        onChange={(e) => handleChange(e)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        {/* ))} */}
                         <div className="form-group">
                             <label className='fs-5 fw-bolder ' htmlFor="tagli className=''ne">Tagline</label>
                             <input
@@ -86,8 +161,8 @@ const Body = ({ onClose }) => {
                                 className="form-control p-3"
                                 id="tagline"
                                 name="TagLine"
-                                value={companyData.TagLine}
-                                onChange={handleChange}
+                                value={TagLine}
+                                onChange={(e) => setTagLine(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
@@ -97,8 +172,8 @@ const Body = ({ onClose }) => {
                                 className="form-control p-3"
                                 id="websites"
                                 name="Websites"
-                                value={companyData.Websites}
-                                onChange={handleChange}
+                                value={Websites}
+                                onChange={(e) => setWebsites(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
@@ -108,8 +183,8 @@ const Body = ({ onClose }) => {
                                 className="form-control p-3"
                                 id="establishedYear"
                                 name="establishedYear"
-                                value={companyData.establishedYear}
-                                onChange={handleChange}
+                                value={establishedYear}
+                                onChange={(e) => setEsatablishedYear(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
@@ -119,8 +194,8 @@ const Body = ({ onClose }) => {
                                 id="description"
                                 name="Description"
                                 rows="3"
-                                value={companyData.Description}
-                                onChange={handleChange}
+                                value={Description}
+                                onChange={(e) => setDescription(e.target.value)}
                             ></textarea>
                         </div>
                         <button type="submit" className="btn btn-primary mt-3">Update Profile</button>

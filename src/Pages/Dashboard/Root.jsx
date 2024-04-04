@@ -9,7 +9,7 @@ import Jobs from '../Jobs/Jobs'
 import Notification from '../Notification/Notification'
 import Connections from '../Connections/Connections.jsx'
 import useAPI from '../../Hooks/useAPI.jsx'
-import { GlobalState } from '../../App.jsx'
+import { GlobalState } from '../../main'
 import { ActiveModal } from '../../main.jsx'
 import SignUp from '../../Modals/SignUp.jsx'
 
@@ -24,12 +24,12 @@ const Root = () => {
 
 
     useEffect(() => {
-            if (currentState.isProfileComplete) {
+            // if (currentState.isProfileComplete) {
                 setPage("dashboard")
-            }
-            else {
-                setPage("isnew")
-            }
+            // }
+            // else {
+            //     setPage("isnew")
+            // }
     }, [currentState])
     useEffect(() => {
         const fetchApi = async () => {
@@ -51,16 +51,22 @@ const Root = () => {
         switch (page) {
             case "dashboard":
                 return <Dashboard />
+                break;
             case "Connections":
                 return <Connections />
+                break;
             case "profile":
                 return <Profile />
+                break;
             case "jobs":
                 return <Jobs />
+                break;
             case "notifications":
                 return <Notification />
-            case "isnew":
-                return <SignUp />
+                break;
+            // case "isnew":
+            //     return <SignUp />
+            //     break;
             default:
                 break;
         }

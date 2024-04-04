@@ -7,7 +7,7 @@ import "./style.css";
 import DataTable from "react-data-table-component";
 import useAPI from "../../Hooks/useAPI";
 import { ActiveModal } from "../../main";
-import { GlobalState } from "../../App";
+import { GlobalState } from '../../main'
 import Navbar from "../../Shared/Navbar";
 const Connections = () => {
     const api = useAPI();

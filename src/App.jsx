@@ -17,8 +17,7 @@ import useAPI from "./Hooks/useAPI";
 import ServerError from "./Components/ServerError";
 const RenderScreen = createContext([() => { }]);
 const EnableLoader = createContext([() => { }]);
-const ErrorState = createContext([() => { }]);
-const GlobalState = createContext([() => { }]);
+const ErrorState = createContext([() => { }]);  
 const RefreshState = createContext([() => { }])
 
 
@@ -28,7 +27,6 @@ function App() {
     const [screen, setScreen] = useState(activeScreen);
     const [loaderState, setLoaderState] = useState(false);
     const [isOnline, setIsOnline] = useState(navigator.onLine);
-    const [currentState, setCurrentState] = useState("");
     const [error, setError] = useState(null);
     const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -48,7 +46,6 @@ function App() {
     return (
         <>
             <RefreshState.Provider value={[isRefreshing ,setIsRefreshing]}>
-                <GlobalState.Provider value={[currentState, setCurrentState]}>
                     <ErrorState.Provider value={[error, setError]}>
                         <EnableLoader.Provider value={[loaderState, setLoaderState]}>
                             <RenderScreen.Provider value={[screen, setScreen]}>
@@ -86,11 +83,10 @@ function App() {
                             </RenderScreen.Provider>
                         </EnableLoader.Provider>
                     </ErrorState.Provider>
-                </GlobalState.Provider>
             </RefreshState.Provider>
         </>
     );
 }
 
 export default App;
-export { RenderScreen, EnableLoader, ErrorState, GlobalState , RefreshState};
+export { RenderScreen, EnableLoader, ErrorState , RefreshState};
