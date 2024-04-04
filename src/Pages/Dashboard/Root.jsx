@@ -24,12 +24,12 @@ const Root = () => {
 
 
     useEffect(() => {
-            // if (currentState.isProfileComplete) {
+            if (currentState.isProfileComplete) {
                 setPage("dashboard")
-            // }
-            // else {
-            //     setPage("isnew")
-            // }
+            }
+            else {
+                setPage("isnew")
+            }
     }, [currentState])
     useEffect(() => {
         const fetchApi = async () => {
