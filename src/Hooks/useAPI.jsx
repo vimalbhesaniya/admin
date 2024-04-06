@@ -26,14 +26,12 @@ const useAPI = () => {
                 })
             const data = await RESPONSE.json();
             if (data) {
-                // setLoaderState(false);`
+                // setLoaderState(false);
             }
             setData(data);
             return data
         }
         catch (error) {
-            setError(error);
-            // setLoaderState(false);
             return error
         }
     }, [data, error, loading]);
@@ -67,6 +65,7 @@ const useAPI = () => {
         }
     }, [data, error, loading]);
     
+    console.log(error);
     
     const patchREQUEST = useCallback(async (PATH,COLLECTION_NAME  ,_id, COLUMNS ) => {
         try {

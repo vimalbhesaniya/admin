@@ -31,7 +31,7 @@ const Body = ({ onClose, style, hidden, setValue }) => {
         "gpa",
         "certifications",
     ];
-    const filteredData2 = Object.entries(user.education[0]).filter(([key, _]) =>
+    const filteredData2 = Object.entries(user?.education.length != 0 && user.education[0]).filter(([key, _]) =>
         schemaKeysEducation.includes(key)
     );
 
@@ -46,8 +46,8 @@ const Body = ({ onClose, style, hidden, setValue }) => {
         "certifications",
     ];
     
-    const filteredData3 = Object.entries(user.experience[0]).filter(([key, _]) =>
-        schemaKeysExperience.includes(key)
+    const filteredData3 = Object.entries( user?.experience.length != 0 && user?.experience[0]).filter(([key, _]) =>
+        schemaKeysExperience.includes(key)  
     );
 
     const schemaKeysAddress = [
@@ -57,7 +57,7 @@ const Body = ({ onClose, style, hidden, setValue }) => {
         'personalAddress'
     ];
 
-    const filteredData4 = Object.entries(user.location[0]).filter(([key, _]) =>
+    const filteredData4 = Object.entries(user?.location.length != 0 && user.location[0]).filter(([key, _]) =>
         schemaKeysAddress.includes(key)
     );
     const handleHide = (key) => {

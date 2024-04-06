@@ -19,9 +19,9 @@ const Root = () => {
     const api = useAPI();
     const [currentState, setCurrentState] = useContext(GlobalState);
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
-    // const renderCompo = currentState.isProfileComplete?"dashboard" : "isnew"
+    const renderCompo = currentState.isProfileComplete?"dashboard" : "isnew"
     const [page, setPage] = useState()
-
+    console.log(currentState.isProfileComplete);  
 
     useEffect(() => {
             if (currentState.isProfileComplete) {
@@ -40,11 +40,10 @@ const Root = () => {
         fetchApi()
     }, [])
 
-    // console.log(currentState.isProfileComplete);
-    // useEffect(() => {
-    //     console.log(renderCompo);
-    //     setPage(renderCompo)
-    // }, [])
+    useEffect(() => {
+        console.log(renderCompo);
+        setPage(renderCompo)
+    }, [])
 
     const renderScreen = useCallback(() => {
 
@@ -64,9 +63,9 @@ const Root = () => {
             case "notifications":
                 return <Notification />
                 break;
-            // case "isnew":
-            //     return <SignUp />
-            //     break;
+            case "isnew":
+                return <SignUp />
+                break;
             default:
                 break;
         }

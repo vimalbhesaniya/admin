@@ -4,6 +4,7 @@ import css from "../Styles/modal.module.css"
 import { toast } from 'react-toastify';
 import useAPI from '../Hooks/useAPI';
 
+
 const Body = ({ onClose }) => {
     const api = useAPI();
     const from=localStorage.getItem("mailFrom")

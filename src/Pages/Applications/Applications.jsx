@@ -1,10 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Tab from '../../Shared/Tab'
 import css from "../Dashboard/style.module.css"
-import axios from "axios"
 import "../Connections/style.css"
 import { ActiveModal } from "../../main"
-import Navbar from '../../Shared/Navbar'
 import useAPI from '../../Hooks/useAPI'
 import {  RefreshState } from '../../App'
 import { GlobalState } from '../../main'

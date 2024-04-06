@@ -64,10 +64,11 @@ const SignIn = () => {
                 <div className={`${css.formSlogan} ${css.mt}`}>Step into the realm of security, where each login is a shield against digital intrusion.</div>
                 <div className={`${css.row} ${css.mt}`}>
                     <input
-                        type="text"
+                        type="email"
                         className={css.formInput}
                         placeholder="Email"
                         onChange={handleChange}
+                        required
                         name="email"
                         value={formData.email}
                     />
@@ -77,6 +78,7 @@ const SignIn = () => {
                         type="password"
                         className={css.formInput}
                         placeholder="Password"
+                        required
                         name="password"
                         onChange={handleChange}
                         value={formData.password}

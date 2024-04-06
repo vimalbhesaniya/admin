@@ -87,6 +87,7 @@ const Body = ({ onClose, style, hidden }) => {
             }
         });
     };
+    console.log(data);
 
     return (
         <>
@@ -102,7 +103,10 @@ const Body = ({ onClose, style, hidden }) => {
                                 </td>
                             </tr>
                         </thead>}
-                        {data?.map((e) => (
+                        {
+                            data.length === 0 && <h3 style={{textAlign:"center"}}>No Jobs Found</h3>
+                        }
+                        {Array.isArray(data) && data?.map((e) => (
                             <>
                                 <thead className="">
                                     <tr>
@@ -211,7 +215,9 @@ const Body = ({ onClose, style, hidden }) => {
                                         ))}
                                 </tbody>
                             </>
-                        ))}
+                        )) 
+                        
+                        }
                     </table>
                 </div>
             </div>

@@ -11,6 +11,7 @@ const Notification = () => {
     const [jobs, setJobs] = useState([]);
     const [countLength, setCountLength] = useState(jobs.length + users.length)
     const api = useAPI();
+    console.log(jobs);
 
     const cid = localStorage.getItem("id");
     const fetchJobs = useCallback(async () => {
@@ -44,31 +45,29 @@ const Notification = () => {
                     </>
                 }></Tab>
                 {
-                    !jobs && !users&&<>
+                    !jobs && !users && <>
                         <span className='alert alert-danger '> No data found</span>
                     </>
-                    
+
                 }
                 {
-                    jobs && Array.isArray(users) && jobs?.map((e) => {
-                        return (
-                            <div className={`alert alert-success d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
-                                <span>{e?.userId?.firstName} {e?.userId?.lastName} has applied for the {e?.jobId?.Title} position.</span>
-                                {/* <span></span> */}
-                                <span><i className='fa fa-close'></i></span>
-                            </div>
-                        )
-                    })
+                    Array.isArray(jobs) && jobs?.map((e) => {
+                        return <div className={`alert alert-success d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
+                            <span>{e?.userId?.firstName} {e?.userId?.lastName} has applied for the {e?.jobId?.Title} position.</span>
+                            {/* <span></span> */}
+                            <span><i className='fa fa-close'></i></span>
+                        </div>
+                    }
+                    )
                 }
                 {
-                    users && Array.isArray(users) && users?.map((e) => {
-                        return (
-                            <div className={`alert alert-primary d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
-                                <span>You've gained a new connection: {e?.firstName} {e?.lastName}</span>
-                                <span><i className='fa fa-close'></i></span>
-                            </div>
-                        )
-                    })
+                    Array.isArray(users) && users?.map((e) => {
+                        return <div className={`alert alert-primary d-flex justify-content-between  align-items-center  ${css.notificationCard}`}>
+                            <span>You've gained a new connection: {e?.firstName} {e?.lastName}</span>
+                            <span><i className='fa fa-close'></i></span>
+                        </div>
+                    }
+                    )
                 }
             </div>
         </>
