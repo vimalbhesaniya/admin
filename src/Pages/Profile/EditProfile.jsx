@@ -9,7 +9,6 @@ import { GlobalState } from '../../main'
 const Body = ({ onClose }) => {
     const api = useAPI();
     const [currentState, setCurrentState] = useContext(GlobalState);
-    console.log(currentState);
     const web = currentState.Websites.join(" , ");
     const desc = currentState.Description.join(" , ");
     const id = localStorage.getItem("id");
