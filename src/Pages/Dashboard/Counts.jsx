@@ -9,9 +9,9 @@ const Counts = () => {
     const id = localStorage.getItem("id");
     const fetch = useCallback(async () => {
         const application = await api.getREQUEST(`applied-users/${id}`)
-        setApplication(application.length);
+        setApplication(application?.length);
         const data = await api.getREQUEST(`getConnections/${id}`);
-        setConnection(data.length);
+        setConnection(data?.length || 0);
         const jobs = await api.getREQUEST(`FetchCompanyJobs/${id}`)
         setJob(jobs?.length)
     });
