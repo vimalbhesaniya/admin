@@ -19,26 +19,25 @@ const Root = () => {
     const api = useAPI();
     const [currentState, setCurrentState] = useContext(GlobalState);
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
-    const renderCompo = currentState.isProfileComplete?"dashboard" : "isnew"
-    const [page, setPage] = useState()
-    console.log(currentState.isProfileComplete);  
+    const renderCompo = currentState?.isProfileComplete ? "dashboard" : "isnew";
+    const [page, setPage] = useState();
+    console.log(currentState?.isProfileComplete);
 
     useEffect(() => {
-            if (currentState.isProfileComplete) {
-                setPage("dashboard")
-            }
-            else {
-                setPage("isnew")
-            }
-    }, [currentState])
+      if (currentState.isProfileComplete) {
+        setPage("dashboard");
+      } else {
+        setPage("isnew");
+      }
+    }, [currentState]);
     useEffect(() => {
-        const fetchApi = async () => {
-            const id = localStorage.getItem("id");
-            const response = await api.getREQUEST(`company/${id}`)
-            setCurrentState(response[0])
-        }
-        fetchApi()
-    }, [])
+      const fetchApi = async () => {
+        const id = localStorage.getItem("id");
+        const response = await api.getREQUEST(`company/${id}`);
+        setCurrentState(response?.data?.[0]);
+      };
+      fetchApi();
+    }, []);
 
     useEffect(() => {
         console.log(renderCompo);

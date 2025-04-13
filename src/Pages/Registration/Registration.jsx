@@ -68,17 +68,16 @@ const Registration = () => {
         event.preventDefault();
         if (formData.Email && formData.Password && formData.ConfirmPassword && warning === "") {
             const res = await api.postREQUEST("addCompany" , JSON.stringify(formData))
-            if (res.success === false) {
-                toast.error(res.messge)
-            }
-            else{
-                toast.success("Registration Successfully")
-                setFormData({
-                    Email: "",
-                    Password: "",
-                    ConfirmPassword: ""
-                });
-
+            console.log("call--res", res.message);
+            if (res?.error) {
+              toast.error(res.message);
+            } else {
+              toast.success("Registration Successfully");
+              setFormData({
+                Email: "",
+                Password: "",
+                ConfirmPassword: "",
+              });
             }
         }
         else{
