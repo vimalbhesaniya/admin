@@ -26,22 +26,21 @@ const Body = ({ onClose }) => {
             [name]: value
         }));
     };
+    const { mutate } = api.usePostREQUEST({
+      PATH: "EmailSend",
+      onSuccess: () => {
+        toast.success("Email Sent Successfully");
+      },
+      onError: (error) => {
+        toast.error(error?.message);
+      },
+    });
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const response = await api.postREQUEST("EmailSend", JSON.stringify(formData))
-        if (response) {
-            toast.success("Email Sent Successfully.")
-            setFormData({
-                recipient: '',
-                subject: '',
-                message: ''
-            });
-        }
-        else {
-            toast.error(response.error)
-        }
-    }
+      e.preventDefault();
+
+      mutate(JSON.stringify(formData));
+    };
 
     // Clear the form fields after submission
 
