@@ -21,6 +21,9 @@ const Root = () => {
     const [activeModalState, setActiveModalState] = useContext(ActiveModal);
     const renderCompo = currentState?.isProfileComplete ? "dashboard" : "isnew";
     const [page, setPage] = useState();
+
+    const id = localStorage.getItem("id");
+
     console.log(currentState?.isProfileComplete);
 
     useEffect(() => {
@@ -30,14 +33,17 @@ const Root = () => {
         setPage("isnew");
       }
     }, [currentState]);
+
+    const { data } = api.useGetRequest({
+      PATH: `company/${id}`,
+      enabled: true,
+      initialData: [],
+      key : ["company-profile"]
+    });
+
     useEffect(() => {
-      const fetchApi = async () => {
-        const id = localStorage.getItem("id");
-        const response = await api.getREQUEST(`company/${id}`);
-        setCurrentState(response?.data?.[0]);
-      };
-      fetchApi();
-    }, []);
+      setCurrentState(data);
+    }, [data]);
 
     useEffect(() => {
         console.log(renderCompo);

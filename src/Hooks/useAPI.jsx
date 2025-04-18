@@ -1,133 +1,139 @@
-import React, { useCallback, useContext } from 'react'
-import { EnableLoader } from '../App'
-import { ErrorState } from '../App'
-import { RefreshState } from '../App'
-import { useState } from 'react'
+import React, { useCallback, useContext } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
 const useAPI = () => {
-    const [error, setError] = useContext(ErrorState);
-    const [loaderState ,setLoaderState] = useContext(EnableLoader);
-    const [isRefreshing, setIsRefreshing] = useContext(RefreshState);
+  const [data, setData] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const [data, setData] = useState("")
-    // const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false);
-    const postREQUEST = useCallback(async (PATH, BODY, HEADER) => {
-        // setLoaderState(true);
-        try {
-            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "authorization": localStorage.getItem("token"),
-                        ...HEADER
-                    },
-                    body: BODY,
-                    method: "POST"
-                })
-            const data = await RESPONSE.json();
-            if (data) {
-                // setLoaderState(false);
-            }
-            setData(data);
-            return data
-        }
-        catch (error) {
-            return error
-        }
-    }, [data, error, loading]);
-    
-    const getREQUEST = useCallback(async (PATH, BODY, HEADER) => {
-        setIsRefreshing(true)
-        try {
-            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "authorization": localStorage.getItem("token")
-                    },
-                    method: "GET"
-                })
-            const data = await RESPONSE.json();
-            if (data) {
-                setIsRefreshing(false)
-            }
-            setData(data);
-            return data
-        }
-        catch (error) {
-            setIsRefreshing(false)
-            setLoaderState(false);
-            setError(error);
-            return error
-        }
-        finally{
-            setIsRefreshing(false)
-        }
-    }, [data, error, loading]);
-    
-    console.log(error);
-    
-    const patchREQUEST = useCallback(async (PATH,COLLECTION_NAME  ,_id, COLUMNS ) => {
-        try {
-            // setLoaderState(true)
-            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "authorization": localStorage.getItem("token")
-                    },
-                    method: "PATCH",
-                    body:JSON.stringify({
-                        COLLECTION_NAME,
-                        COLUMNS,
-                        _id
-                    })
-                })
-            const data = await RESPONSE.json();
-            if (data) {
-                // setLoaderState(false)
-                setData(data);
-            }
-            return data
-        }
-        catch (error) {
-            // setLoaderState(false);
-            setError(error);
-            return error
-        }
-    }, [data, error, loading]);
-    
-    
-    const deleteREQUEST = useCallback(async (PATH,COLLECTION_NAME , WHERE ) => {
-        try {
-            const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "authorization": localStorage.getItem("token")
-                    },
-                    method: "DELETE",
-                    body:JSON.stringify({
-                        COLLECTION_NAME,
-                        WHERE
-                    })
-                })
-            const data = await RESPONSE.json();
-            setData(data);
-            return data
-        }
-        catch (error) {
-            setLoaderState(false);
-            setError(error);
-            return error
-        }
-    }, [data, error, loading]);
-    
-    return {postREQUEST ,getREQUEST ,deleteREQUEST,patchREQUEST , error, data , loading }
-}
+  const token = localStorage.getItem("token");
 
-export default useAPI
+  const usePostREQUEST = ({ PATH, BODY, HEADER, onSuccess, onError  , key = []}) => {
+    return useMutation({
+      mutationKey : key,
+      mutationFn: async (body) => {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}${PATH}`,
+          body,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: token,
+              ...HEADER,
+            },
+          }
+        );
+        return data;
+      },
+      onSuccess: (data) => onSuccess(data),
+      onError: (error) => onError(error),
+    });
+  };
 
+  const getREQUEST = useCallback(
+    async (PATH, BODY, HEADER) => {
+      if (
+        PATH.split("/")[0] != "fetchfetchAppliedJobs" &&
+        PATH.split("/")[0] != "ListJob"
+      ) {
+      }
+      try {
+        const RESPONSE = await fetch(`${import.meta.env.VITE_API_URL}${PATH}`, {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: Cookies.get("token"),
+          },
+          body: BODY,
+          method: "GET",
+        });
+        const data = await RESPONSE.json();
+        if (data) {
+        }
+        setData(data);
+        return data;
+      } catch (error) {
+        setError(error);
+        return error;
+      }
+    },
+    [data, error, loading]
+  );
+
+  const useGetRequest = ({ key = [], PATH, enabled, initialData }) => {
+    return useQuery({
+      queryKey: key,
+      queryFn: async () => {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}${PATH}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: token,
+            },
+          }
+        );
+        return data.data;
+      },
+      enabled,
+      initialData,
+    });
+  };
+
+  const usePatchREQUEST = ({ PATH, onError, onSuccess, HEADER }) => {
+    return useMutation({
+      mutationFn: async (body) => {
+        const { data } = await axios.patch(
+          `${import.meta.env.VITE_API_URL}${PATH}`,
+          body,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: token,
+              ...HEADER,
+            },
+          }
+        );
+        return data;
+      },
+      onSuccess: (data) => onSuccess && onSuccess(data),
+      onError: (error) => onError && onError(error),
+    });
+  };
+
+  const useDeleteREQUEST = ({ PATH, onError, onSuccess, HEADER }) => {
+    return useMutation({
+      mutationFn: async (body) => {
+        console.log('call--body', body);
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}${PATH}`,
+          body,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: token,
+              ...HEADER,
+            },
+          }
+        );
+        return data;
+      },
+      onSuccess: (data) => onSuccess && onSuccess(data),
+      onError: (error) => onError && onError(error),
+    });
+  };
+
+  return {
+    usePostREQUEST,
+    getREQUEST,
+    useDeleteREQUEST,
+    usePatchREQUEST,
+    useGetRequest,
+  };
+};
+
+export default useAPI;
 
 // const response = await fetch("http://localhost:5500/login", {
 //                     body: JSON.stringify({ email, password }),

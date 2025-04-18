@@ -63,84 +63,92 @@ const Registration = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const { mutate } = api.usePostREQUEST({
+      PATH: "addCompany",
+      onSuccess: () => {
+        toast.success("Registration Successfully");
+      },
+    });
 
-    const handleSubmit =async (event) => {
-        event.preventDefault();
-        if (formData.Email && formData.Password && formData.ConfirmPassword && warning === "") {
-            const res = await api.postREQUEST("addCompany" , JSON.stringify(formData))
-            console.log("call--res", res.message);
-            if (res?.error) {
-              toast.error(res.message);
-            } else {
-              toast.success("Registration Successfully");
-              setFormData({
-                Email: "",
-                Password: "",
-                ConfirmPassword: "",
-              });
-            }
-        }
-        else{
-            
-        }
+    const handleSubmit = () => {
+      if (
+        formData.Email &&
+        formData.Password &&
+        formData.ConfirmPassword &&
+        warning === ""
+      ) {
+        mutate(JSON.stringify(formData));
+
+        setFormData({
+          Email: "",
+          Password: "",
+          ConfirmPassword: "",
+        });
+      }
     };
 
     return (
-        <div className={css.main}>
-            <form onSubmit={handleSubmit} className={css.form}>
-                <div className={`${css.formHeader}`}>Sign Up</div>
-                <div className={`${css.formSlogan} ${css.mt}`}>Partnering with Our Job Portal Connects You with Endless Opportunities, Elevating Your Professional Journey to New Heights!</div>
-                <div className={`${css.row} ${css.mt}`}>
-                    <input
-                        type="text"
-                        className={css.formInput}
-                        placeholder="Email"
-                        onChange={handleChange}
-                        onKeyUp={(e) => validateEmail(e.target.value)}
-                        name="Email"
-                        onBlur={(e) => validateEmail(e.target.value)}
-                        value={formData.Email}
-                    />
-                </div>
-                    <span className="text-danger">{warning}</span>
-                <div className={`${css.row} ${css.g} ${css.mt}`}>
-                    <input
-                        type="password"
-                        className={css.formInput}
-                        placeholder="Password"
-                        name="Password"
-                        onKeyUp={()=>checkPassword()}
-                        onChange={handleChange}
-                        value={formData.Password}
-                    />
-                    <input
-                        type="password"
-                        className={css.formInput}
-                        placeholder="Confirm Password"
-                        name="ConfirmPassword"
-                        onKeyUp={()=>checkPassword()}
-                        onChange={handleChange}
-                        value={formData.ConfirmPassword}
-                    />
-                </div>
-                <div className={`${css.row} ${css.mt}`}>
-                    <button type="submit"  
-                    className={
-                        warning?css.bottonDisabled:
-                        css.botton
-                        }
-                    
-                    >Join Now</button>
-                </div>
-                <div className={`${css.row} ${css.mt}`}>
-                    <div className={`${css.row} ${css.mt}`}>
-                        <span className={css.formFooterText}>
-                            Already have an account ? <b className={css.formLink} onClick={() => setScreen("signin")}>Sign In</b>
-                        </span>
-                    </div>
-                </div>
-            </form>
-        </div>
+      <div className={css.main}>
+        <form className={css.form}>
+          <div className={`${css.formHeader}`}>Sign Up</div>
+          <div className={`${css.formSlogan} ${css.mt}`}>
+            Partnering with Our Job Portal Connects You with Endless
+            Opportunities, Elevating Your Professional Journey to New Heights!
+          </div>
+          <div className={`${css.row} ${css.mt}`}>
+            <input
+              type="text"
+              className={css.formInput}
+              placeholder="Email"
+              onChange={handleChange}
+              onKeyUp={(e) => validateEmail(e.target.value)}
+              name="Email"
+              onBlur={(e) => validateEmail(e.target.value)}
+              value={formData.Email}
+            />
+          </div>
+          <span className="text-danger">{warning}</span>
+          <div className={`${css.row} ${css.g} ${css.mt}`}>
+            <input
+              type="password"
+              className={css.formInput}
+              placeholder="Password"
+              name="Password"
+              onKeyUp={() => checkPassword()}
+              onChange={handleChange}
+              value={formData.Password}
+            />
+            <input
+              type="password"
+              className={css.formInput}
+              placeholder="Confirm Password"
+              name="ConfirmPassword"
+              onKeyUp={() => checkPassword()}
+              onChange={handleChange}
+              value={formData.ConfirmPassword}
+            />
+          </div>
+          <div className={`${css.row} ${css.mt}`}>
+            <button
+              type="submit"
+              onClick={() => handleSubmit()}
+              className={warning ? css.bottonDisabled : css.botton}
+            >
+              Join Now
+            </button>
+          </div>
+          <div className={`${css.row} ${css.mt}`}>
+            <div className={`${css.row} ${css.mt}`}>
+              <span className={css.formFooterText}>
+                Already have an account ?{" "}
+                <b className={css.formLink} onClick={() => setScreen("signin")}>
+                  Sign In
+                </b>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
     );
 };
 
